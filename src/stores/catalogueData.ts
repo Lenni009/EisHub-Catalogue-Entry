@@ -4,16 +4,16 @@ interface State {
   name: string;
   discoverer: string;
   discovererReddit: string;
-  image: File;
+  image: File | null;
   economy: string;
   glyphs: string;
   coordinates: string;
   size: number;
   tier: string;
   contact: string;
-
-  saveReloadLocation: string;
-  mtLocation: string;
+  systemFaction: string;
+  saveReloadLocationName: string;
+  locationName: string;
 }
 
 export const useCatalogueDataStore = defineStore('catalogueData', {
@@ -21,15 +21,15 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     name: '',
     discoverer: '',
     discovererReddit: '',
-    image: '',
+    image: null,
     economy: '',
     glyphs: '',
     coordinates: '',
     size: 0,
     tier: '', // this should be "class"
     contact: '',
-
-    saveReloadLocation: '',
-    mtLocation: '',
+    systemFaction: '',
+    saveReloadLocationName: '',
+    locationName: '',
   }),
 });

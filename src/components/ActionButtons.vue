@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import ConfirmDialog from './ConfirmDialog.vue';
+import { useCatalogueDataStore } from '@/stores/catalogueData';
+import { storeToRefs } from 'pinia';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK);
+
+const catalogueData = useCatalogueDataStore();
+
+const { file } = storeToRefs(catalogueData);
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
 const isSending = ref(false);

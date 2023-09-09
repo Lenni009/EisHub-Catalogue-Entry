@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
 @font-face {
   font-family: 'NMS-Glyphs-Mono';
   src:
@@ -13,7 +15,7 @@
 html,
 body {
   scrollbar-gutter: stable;
-  font-family: sans-serif;
+  font-family: Nunito, sans-serif;
 }
 
 * {

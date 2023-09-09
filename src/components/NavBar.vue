@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import ThemeSwitch from './ThemeSwitch.vue';
+import router from '@/router';
 
-const GHubHosts = ['data.nmsgalactichub.com', 'discovery.nmsgalactichub.com'];
-
-const link = computed(() =>
-  GHubHosts.includes(window.location.host) ? 'https://lenni009.github.io/' /* 'https://nmsgalactichub.com' */ : '/'
-);
+const isRoot = computed(() => router.currentRoute.value.fullPath === '/');
 </script>
 
 <template>
   <nav>
     <ul>
-      <li><a :href="link">&larr; View other pages</a></li>
+      <li>
+        <a
+          v-if="isRoot"
+          href=".."
+          >&larr; View other pages</a
+        >
+        <router-link
+          v-else
+          to="/"
+          >&larr; Return to main page</router-link
+        >
+      </li>
     </ul>
     <ul>
       <li>
