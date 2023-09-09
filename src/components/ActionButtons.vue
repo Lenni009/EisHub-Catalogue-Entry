@@ -1,24 +1,35 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import ConfirmDialog from './ConfirmDialog.vue';
-import { useCatalogueDataStore } from '@/stores/catalogueData';
+import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
+import { requiredFields } from '../objects/shared';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK);
 
-const catalogueData = useCatalogueDataStore();
-
-const { file } = storeToRefs(catalogueData);
+const catalogueDataStore = useCatalogueDataStore();
+const { file, isGlyphsValid } = storeToRefs(catalogueDataStore);
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
 const isSending = ref(false);
 const isSent = ref(false);
 const sendFailed = ref(false);
 
+const emit = defineEmits(['reset']);
+
+const isValidData = computed(
+  () => requiredFields.every((field) => catalogueDataStore.$state[field]) && isGlyphsValid.value
+);
+
+function reset() {
+  catalogueDataStore.$reset();
+  emit('reset');
+}
+
 async function submitCatalogueEntry() {
   const formData = new FormData();
 
-  formData.append(file.value.name, file.value);
+  formData.append(file.value!.name, file.value!);
   formData.append('content', 'Hello World');
 
   try {
@@ -36,6 +47,7 @@ async function submitCatalogueEntry() {
     //   console.log('Upload failed.');
     //   throw new Error();
     // }
+    isSent.value = true;
   } catch (error) {
     sendFailed.value = true;
     setTimeout(() => {
@@ -43,7 +55,6 @@ async function submitCatalogueEntry() {
     }, 3000); // NoSonar wait 3 seconds
   } finally {
     isSending.value = false;
-    isSent.value = true;
     setTimeout(() => {
       isSent.value = false;
     }, 3000); // NoSonar wait 3 seconds
@@ -70,11 +81,32 @@ const buttonTextContent = computed(() => {
     ref="confirmDialog"
     @confirm="submitCatalogueEntry"
   />
-  <button
-    :aria-busy="isSending"
-    :class="{ 'is-error': sendFailed }"
-    @click="openConfirmationDialog"
-  >
-    {{ buttonTextContent }}
-  </button>
+  <div class="buttons">
+    <button
+      :aria-busy="isSending"
+      :class="{ 'is-error': sendFailed, 'is-success': isSent }"
+      :disabled="!isValidData"
+      role="button"
+      type="button"
+      @click="openConfirmationDialog"
+    >
+      {{ buttonTextContent }}
+    </button>
+    <button
+      class="secondary"
+      role="button"
+      type="button"
+      @click="reset"
+    >
+      Reset Inputs
+    </button>
+  </div>
 </template>
+
+<style scoped lang="scss">
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-block: 1.25rem;
+}
+</style>

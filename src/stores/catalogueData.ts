@@ -4,16 +4,17 @@ interface State {
   name: string;
   discoverer: string;
   discovererReddit: string;
-  image: File | null;
+  file: File | null;
   economy: string;
   glyphs: string;
   coordinates: string;
-  size: number;
+  size: string;
   tier: string;
   contact: string;
   systemFaction: string;
   saveReloadLocationName: string;
   locationName: string;
+  notes: string;
 }
 
 export const useCatalogueDataStore = defineStore('catalogueData', {
@@ -21,15 +22,21 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     name: '',
     discoverer: '',
     discovererReddit: '',
-    image: null,
+    file: null,
     economy: '',
     glyphs: '',
     coordinates: '',
-    size: 0,
+    size: '',
     tier: '', // this should be "class"
     contact: '',
     systemFaction: '',
     saveReloadLocationName: '',
     locationName: '',
+    notes: '',
   }),
+
+  getters: {
+    isGlyphsValid: (state) => /(?:[0-9A-F]{4})F(?:[89A])55(?:[5-7])C(?:[23])(?:[01F])/.test(state.glyphs) // tests if an address is valid for EisHub
+
+  }
 });

@@ -1,3 +1,30 @@
+<script setup lang="ts">
+import { useCatalogueDataStore } from '../stores/catalogueData';
+import { storeToRefs } from 'pinia';
+
+const validGlyphsRegex = /[0-9A-F]/;
+
+const catalogueDataStore = useCatalogueDataStore();
+const { glyphs, isGlyphsValid } = storeToRefs(catalogueDataStore);
+
+function addGlyph(e: Event) {
+  if (!(e.target instanceof HTMLButtonElement)) return;
+  if (glyphs.value.length !== 12) glyphs.value += e.target.value; // NoSonar 12 is maximum glyph length
+}
+
+function deleteGlyph() {
+  glyphs.value = glyphs.value.slice(0, -1);
+}
+
+function lintGlyphs() {
+  glyphs.value = glyphs.value
+    .toUpperCase()
+    .split('')
+    .filter((char) => validGlyphsRegex.test(char))
+    .join('');
+}
+</script>
+
 <template>
   <label
     class="label"
@@ -5,18 +32,24 @@
     >Portalglyphs:</label
   >
   <input
+    :class="{ 'is-error': glyphs.length === 12 && !isGlyphsValid }"
     class="glyphs-input"
     id="portalglyphsInput"
     type="text"
+    maxlength="12"
+    v-model="glyphs"
+    @input="lintGlyphs"
   />
   <button
     class="delete-button is-error"
     id="delButton"
     role="button"
     type="button"
+    @click="deleteGlyph"
   >
     &larr; Delete
   </button>
+  <p v-if="glyphs.length === 12 && !isGlyphsValid">Glyphs are outside of EisHub space!</p>
   <div class="portal-buttons grid">
     <button
       v-for="n in 16"
@@ -24,6 +57,7 @@
       type="button"
       :id="'glyphButton' + n"
       :value="(n - 1).toString(16).toUpperCase()"
+      @click="addGlyph"
     >
       {{ (n - 1).toString(16).toUpperCase() }}
     </button>
@@ -32,7 +66,8 @@
     <output
       class="glyphs"
       id="glyphDisplay"
-    ></output>
+      >{{ glyphs }}</output
+    >
   </p>
 </template>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import ThemeSwitch from './ThemeSwitch.vue';
-import router from '@/router';
+import router from '../router';
 
 const isRoot = computed(() => router.currentRoute.value.fullPath === '/');
 </script>

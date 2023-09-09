@@ -28,3 +28,18 @@ body {
   background-color: indianred;
   border: 1px solid firebrick;
 }
+
+.is-success {
+  background-color: mediumseagreen;
+  border: 1px solid darkseagreen;
+}
+
+.input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  & > * {
+    flex-grow: 1;
+  }
+}

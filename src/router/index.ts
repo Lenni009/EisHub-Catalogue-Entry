@@ -12,7 +12,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'home',
+          name: 'Home',
           component: () => import('../pages/Home.vue')
         }
       ]
@@ -23,7 +23,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'starship',
+          name: 'Starship',
           component: () => import('../pages/Starship.vue')
         }
       ]
@@ -34,7 +34,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'freighter',
+          name: 'Freighter',
           component: () => import('../pages/Freighter.vue')
         }
       ]
@@ -45,7 +45,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'frigate',
+          name: 'Organic Frigate',
           component: () => import('../pages/Frigate.vue')
         }
       ]
@@ -56,7 +56,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'multitool',
+          name: 'Multi-Tool',
           component: () => import('../pages/Multitool.vue')
         }
       ]
@@ -67,7 +67,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'creature',
+          name: 'Creature',
           component: () => import('../pages/Creature.vue')
         }
       ]
@@ -78,7 +78,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'flora',
+          name: 'Flora',
           component: () => import('../pages/Flora.vue')
         }
       ]
@@ -89,7 +89,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'planet',
+          name: 'Planet',
           component: () => import('../pages/Planet.vue')
         }
       ]
