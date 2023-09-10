@@ -5,16 +5,16 @@ interface State {
   discoverer: string;
   discovererReddit: string;
   file: File | null;
-  economy: string;
+  economy: '★★★ Economy' | '★★ Economy' | '★ Economy' | '{{BlackMarket}}' | '★ Economy (Abandoned)';
   glyphs: string;
   coordinates: string;
   size: string;
-  tier: string;
-  contact: string;
-  systemFaction: string;
+  tier: 'C' | 'B' | 'A' | 'S';
+  systemFaction: 'Korvax' | 'Vy\'keen' | 'Gek';
   saveReloadLocationName: string;
   locationName: string;
   notes: string;
+  features: string;
 }
 
 export const useCatalogueDataStore = defineStore('catalogueData', {
@@ -23,16 +23,16 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     discoverer: '',
     discovererReddit: '',
     file: null,
-    economy: '',
+    economy: '★★★ Economy',
     glyphs: '',
     coordinates: '',
     size: '',
-    tier: '', // this should be "class"
-    contact: '',
-    systemFaction: '',
+    tier: 'C', // this should be "class"
+    systemFaction: 'Korvax',
     saveReloadLocationName: '',
     locationName: '',
     notes: '',
+    features: '',
   }),
 
   getters: {

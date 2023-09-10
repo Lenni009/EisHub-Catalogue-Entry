@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useCatalogueDataStore } from '../stores/catalogueData';
+import { usePersistentDataStore } from '../stores/persistentData';
 import { storeToRefs } from 'pinia';
 
 const catalogueDataStore = useCatalogueDataStore();
-const { discoverer, discovererReddit, contact, notes } = storeToRefs(catalogueDataStore);
+const { discoverer, discovererReddit, notes } = storeToRefs(catalogueDataStore);
+const persistentDataStore = usePersistentDataStore();
+const { contact } = storeToRefs(persistentDataStore);
 </script>
 
 <template>
@@ -38,7 +41,7 @@ const { discoverer, discovererReddit, contact, notes } = storeToRefs(catalogueDa
     <div>
       <label for="notes">Additional Notes for the Scribe Team</label>
       <textarea
-      class="textarea"
+        class="textarea"
         id="notes"
         type="text"
         v-model="notes"

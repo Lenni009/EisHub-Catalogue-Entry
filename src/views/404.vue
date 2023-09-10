@@ -1,7 +1,7 @@
 <template>
   <p>This page doesn't exist.</p>
 
-  <p><a href="/">Go back</a></p>
+  <p><router-link to="/">Go back</router-link></p>
 </template>
 
 <style scoped lang="scss">

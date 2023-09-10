@@ -32,7 +32,7 @@ function lintGlyphs() {
     >Portalglyphs:</label
   >
   <input
-    :class="{ 'is-error': glyphs.length === 12 && !isGlyphsValid }"
+    :aria-invalid="(glyphs.length === 12 && !isGlyphsValid) || undefined"
     class="glyphs-input"
     id="portalglyphsInput"
     type="text"

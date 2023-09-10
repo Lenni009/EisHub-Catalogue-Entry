@@ -23,7 +23,7 @@ function updateSize(e: Event) {
   <input
     id="height"
     type="text"
-    :class="{ 'is-error': isFaulty }"
+    :aria-invalid="isFaulty || undefined"
     :maxlength="size.toString().startsWith('-') ? 4 : 3"
     @input="updateSize"
   />
