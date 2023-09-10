@@ -7,11 +7,13 @@ const { features } = storeToRefs(catalogueDataStore);
 </script>
 
 <template>
-  <label for="features">Special Features of the Planet</label>
-  <input
-    id="features"
-    type="text"
-    maxlength="30"
-    v-model="features"
-  />
+  <div>
+    <label for="features">Special Features of the Planet</label>
+    <input
+      id="features"
+      type="text"
+      maxlength="30"
+      v-model="features"
+    />
+  </div>
 </template>

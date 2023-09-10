@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch, watchEffect } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import ConfirmDialog from './ConfirmDialog.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { usePersistentDataStore } from '../stores/persistentData';
 import { storeToRefs } from 'pinia';
 import { compress, EImageType } from 'image-conversion';
+import router from '../router';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK);
 
@@ -24,9 +25,10 @@ const {
   notes,
   glyphs,
   isGlyphsValid,
+  compressedFile,
 } = storeToRefs(catalogueDataStore);
 const persistentDataStore = usePersistentDataStore();
-const { requiredFields, contact } = storeToRefs(persistentDataStore);
+const { requiredFields, contact, submittedEntries } = storeToRefs(persistentDataStore);
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
 const isSending = ref(false);
@@ -83,32 +85,48 @@ async function compressFile(file: File): Promise<File> {
   return newFile;
 }
 
+function currentPage() {
+  const path = router.currentRoute.value.path;
+  const identifier = path.replace('/', '').toLowerCase();
+  console.log(router.currentRoute.value.path, identifier);
+  return identifier;
+}
+
+function generateAlbumEntry(): string {
+  return '';
+}
+
 async function submitCatalogueEntry() {
+  if (submittedEntries.value.has(name.value)) return;
   if (!file.value) return;
   isSending.value = true;
 
   const formData = new FormData();
 
-  const compressedFile = await compressFile(file.value);
+  compressedFile.value = await compressFile(file.value);
+  if (!compressedFile.value?.name) return;
 
-  formData.append(compressedFile.name, compressedFile);
-  formData.append('content', 'Hello World');
+  formData.append(compressedFile.value.name, compressedFile.value);
+  formData.append('content', generateAlbumEntry().trim());
 
+  console.log(formData);
   try {
-    // const response = await fetch(webhook, {
-    //   method: 'POST',
-    //   body: formData,
-    // });
+    if (import.meta.env.PROD || import.meta.env.VITE_ENABLE_WEBHOOK === 'true') {
+      const response = await fetch(webhook, {
+        method: 'POST',
+        body: formData,
+      });
 
-    console.log(formData);
-    // if (response.ok) {
-    //   const data = await response.text();
-    //   console.log(data);
-    // } else {
-    //   console.log('Upload failed.');
-    //   throw new Error();
-    // }
+      if (response.ok) {
+        const data = await response.text();
+        console.log(data);
+      } else {
+        console.log('Upload failed.');
+        throw new Error();
+      }
+    }
     isSent.value = true;
+    submittedEntries.value.add(name.value);
   } catch (error) {
     sendFailed.value = true;
     setTimeout(() => {

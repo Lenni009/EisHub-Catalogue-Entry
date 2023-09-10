@@ -17,7 +17,8 @@ defineProps<{
 <style scoped lang="scss">
 .link {
   font-size: inherit;
-  padding: .75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
+  width: 100%;
 
   &:hover {
     color: white;

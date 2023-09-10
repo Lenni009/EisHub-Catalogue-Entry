@@ -73,6 +73,17 @@ const router = createRouter({
       ]
     },
     {
+      path: '/sandworm',
+      component: Form,
+      children: [
+        {
+          path: '',
+          name: 'Sandworm',
+          component: () => import('../pages/Sandworm.vue')
+        }
+      ]
+    },
+    {
       path: '/flora',
       component: Form,
       children: [

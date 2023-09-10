@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import ThemeSwitch from './ThemeSwitch.vue';
 import router from '../router';
 
-const isRoot = computed(() => router.currentRoute.value.fullPath === '/');
+const isRoot = computed(() => router.currentRoute.value.path === '/');
 </script>
 
 <template>

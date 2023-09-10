@@ -29,6 +29,10 @@ import Logo from '../components/Logo.vue';
         title="Creature"
       />
       <NavLink
+        route="/sandworm"
+        title="Sandworm"
+      />
+      <NavLink
         route="/flora"
         title="Flora"
       />
@@ -76,8 +80,8 @@ import Logo from '../components/Logo.vue';
 }
 
 .link-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   width: min(100%, 600px);
   font-size: 1.5rem;

@@ -3,5 +3,7 @@ import ClassSelect from '../components/ClassSelect.vue';
 </script>
 
 <template>
-  <ClassSelect />
+  <div>
+    <ClassSelect />
+  </div>
 </template>
