@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { ReloadLocation, StellarLocation, MTSubtype } from '../types/catalogue';
+import type { ReloadLocation, StellarLocation, MTSubtype, MTType } from '../types/catalogue';
 
 function albumEntry(file: string, name: string, other: string = '', glyphs: string, discoverer: string, additionalInfo: string = '') {  // NoSonar this is fine
   return `| {{album | file=${file} | name=${name} | other=${other} | glyph=${glyphs} | ${discoverer} }} ${additionalInfo}`;
@@ -42,7 +42,7 @@ interface State {
   stomach: string;
   slots: string;
   subtype: MTSubtype;
-  type: 'Experimental' | 'Standard' | 'Alien' | 'Royal' | 'Starter Pistol' | 'Atlantid' | 'Sentinel';
+  type: MTType;
 }
 
 export const useCatalogueDataStore = defineStore('catalogueData', {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import ClassSelect from '../components/ClassSelect.vue';
 
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
-import type { MTSubtype } from '../types/catalogue';
+import type { MTType } from '../types/catalogue';
 
 const catalogueDataStore = useCatalogueDataStore();
 const {
@@ -20,22 +20,29 @@ const {
 
 const subtypeSelect = ref<HTMLSelectElement | null>();
 
-watch(type, () => {
-  if (!(subtypeSelect.value instanceof HTMLSelectElement)) return;
+const ucFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-  nextTick(() => {
-    if (!subtypeSelect.value) return;
-    const currentValue = subtypeSelect.value.value;
+const isOnPlanet = computed(() => locationType.value !== 'space station');
+const srIsOnPlanet = computed(() => saveReloadLocationType.value !== 'space station');
 
-    const validValues: MTSubtype[] = ['Rifle', 'SMG', 'Pistol', ''];
+const planetaryTools: MTType[] = ['Atlantid', 'Royal', 'Sentinel'];
+const tieredMTs: MTType[] = ['Standard', 'Alien', 'Experimental'];
 
-    if (!validValues.includes(currentValue as MTSubtype)) return;
+const isInvalidLocation = computed(() => !isOnPlanet.value && planetaryTools.includes(type.value));
+const isTieredMT = computed(() => tieredMTs.includes(type.value));
 
-    subtype.value = currentValue as MTSubtype;
-  });
+watch(isInvalidLocation, (newValue) => {
+  if (newValue) locationType.value = 'planet';
 });
 
-const isTieredMT = computed(() => ['Standard', 'Experimental', 'Alien'].includes(type.value));
+watch(type, (newType, oldType) => {
+  if (
+    (!tieredMTs.includes(newType) && tieredMTs.includes(oldType)) ||
+    (newType === 'Experimental' && subtype.value === 'SMG')
+  ) {
+    subtype.value = '';
+  }
+});
 </script>
 
 <template>
@@ -46,14 +53,19 @@ const isTieredMT = computed(() => ['Standard', 'Experimental', 'Alien'].includes
     <div>
       <label>MT Location</label>
       <select v-model="locationType">
+        <option
+          value="space station"
+          v-if="!planetaryTools.includes(type)"
+        >
+          Space Station
+        </option>
         <option value="planet">Planet</option>
         <option value="moon">Moon</option>
-        <option value="space station">Space Station</option>
       </select>
     </div>
 
-    <div>
-      <label for="locInput">Planet Name</label>
+    <div v-show="isOnPlanet">
+      <label for="locInput">{{ ucFirst(locationType) }} Name</label>
       <input
         type="text"
         id="locInput"
@@ -61,7 +73,7 @@ const isTieredMT = computed(() => ['Standard', 'Experimental', 'Alien'].includes
       />
     </div>
 
-    <div>
+    <div v-show="isOnPlanet">
       <label for="coordInput">Planetary Coordinates</label>
       <input
         type="text"
@@ -73,14 +85,14 @@ const isTieredMT = computed(() => ['Standard', 'Experimental', 'Alien'].includes
     <div>
       <label>Save/Reload Location</label>
       <select v-model="saveReloadLocationType">
+        <option value="space station">Space Station</option>
         <option value="planet">Planet</option>
         <option value="moon">Moon</option>
-        <option value="space station">Space Station</option>
       </select>
     </div>
 
-    <div>
-      <label for="srInput">Save/Reload Planet Name</label>
+    <div v-show="srIsOnPlanet">
+      <label for="srInput">Save/Reload {{ ucFirst(saveReloadLocationType) }} Name</label>
       <input
         type="text"
         id="srInput"
