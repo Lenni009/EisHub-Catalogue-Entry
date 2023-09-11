@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+@font-face {
+  font-family: 'NMS-Glyphs-Mono';
+  src:
+    local('NMS-Glyphs-Mono'),
+    url('./fonts/NMS-Glyphs-Mono.ttf') format('truetype');
+}
+
 .container {
   margin-block-start: 1rem;
   margin-block-end: 5rem;
@@ -6,4 +15,31 @@
 html,
 body {
   scrollbar-gutter: stable;
+  font-family: Nunito, sans-serif;
+}
+
+* {
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.is-error {
+  background-color: indianred;
+  border: 1px solid firebrick;
+}
+
+.is-success {
+  background-color: mediumseagreen;
+  border: 1px solid darkseagreen;
+}
+
+.input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  & > * {
+    flex-grow: 1;
+  }
 }

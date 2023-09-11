@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const filter = ref<string>('');
+import NavBar from './components/NavBar.vue';
 </script>
 
 <template>
   <header>
+    <NavBar />
     <h1 class="title">EisHub Catalogue Entry</h1>
   </header>
 
   <main>
-
+    <router-view />
   </main>
 </template>
 
