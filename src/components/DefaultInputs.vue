@@ -25,6 +25,7 @@ function updateStoreFile(e: Event) {
     <div>
       <label for="image">Upload Image</label>
       <input
+        accept="image/*"
         id="image"
         type="file"
         @change="updateStoreFile"

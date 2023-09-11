@@ -111,8 +111,8 @@ function currentPage() {
   return identifier;
 }
 
-function generateAlbumEntry(): string {
-  return albumStrings[currentPage()];
+function generateAlbumEntry(page: string): string {
+  return albumStrings[page];
 }
 
 async function submitCatalogueEntry() {
@@ -126,7 +126,7 @@ async function submitCatalogueEntry() {
   if (!compressedFile.value?.name) return;
 
   formData.append(compressedFile.value.name, compressedFile.value);
-  formData.append('content', generateAlbumEntry().trim());
+  formData.append('content', generateAlbumEntry(currentPage()).trim());
 
   console.log(formData);
   try {
