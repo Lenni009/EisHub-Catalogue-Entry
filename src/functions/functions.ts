@@ -6,11 +6,11 @@ export function albumEntry(file: string, name: string, other: string = '', glyph
 
 export function discovererParm(discovererReddit: string, discoverer: string) {
   if (discovererReddit && discoverer && discovererReddit !== discoverer) {
-    return `| redditA=${discovererReddit} | redditD=${discoverer}`;
+    return `redditA=${discovererReddit} | redditD=${discoverer}`;
   } else if (discovererReddit) {
-    return `| reddit=${discovererReddit}`;
+    return `reddit=${discovererReddit}`;
   } else {
-    return `| discoverer=${discoverer}`;
+    return `discoverer=${discoverer}`;
   }
 }
 
