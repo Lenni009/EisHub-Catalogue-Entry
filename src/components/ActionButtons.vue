@@ -26,6 +26,14 @@ const {
   glyphs,
   isGlyphsValid,
   compressedFile,
+  starship,
+  freighter,
+  frigate,
+  multitool,
+  creature,
+  sandworm,
+  flora,
+  planet,
 } = storeToRefs(catalogueDataStore);
 const persistentDataStore = usePersistentDataStore();
 const { requiredFields, contact, submittedEntries } = storeToRefs(persistentDataStore);
@@ -52,6 +60,17 @@ const fields: { [key: string]: string | File | null } = reactive({
   notes,
   contact,
   glyphs,
+});
+
+const albumStrings: { [key: string]: string } = reactive({
+  starship,
+  freighter,
+  frigate,
+  multitool,
+  creature,
+  sandworm,
+  flora,
+  planet,
 });
 
 const isValidData = computed(() => requiredFields.value.every((field) => fields[field]) && isGlyphsValid.value);
@@ -93,7 +112,7 @@ function currentPage() {
 }
 
 function generateAlbumEntry(): string {
-  return '';
+  return albumStrings[currentPage()];
 }
 
 async function submitCatalogueEntry() {

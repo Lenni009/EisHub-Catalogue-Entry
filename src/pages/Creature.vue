@@ -19,14 +19,16 @@ function updateSize(e: Event) {
 </script>
 
 <template>
-  <div>
-    <label for="height">Creature Height</label>
-    <input
-      id="height"
-      type="text"
-      :aria-invalid="isFaulty || undefined"
-      :maxlength="size.toString().startsWith('-') ? 4 : 3"
-      @input="updateSize"
-    />
+  <div class="input-group">
+    <div>
+      <label for="height">Creature Height</label>
+      <input
+        id="height"
+        type="text"
+        :aria-invalid="isFaulty || undefined"
+        :maxlength="size.toString().startsWith('-') ? 4 : 3"
+        @input="updateSize"
+      />
+    </div>
   </div>
 </template>

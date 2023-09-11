@@ -8,16 +8,18 @@ const { systemFaction } = storeToRefs(catalogueDataStore);
 </script>
 
 <template>
-  <div>
-    <label>Dominant Faction of the System</label>
-    <select v-model="systemFaction">
-      <option value="Korvax">Korvax</option>
-      <option value="Gek">Gek</option>
-      <option value="Vy'keen">Vy'keen</option>
-    </select>
-  </div>
+  <div class="input-group">
+    <div>
+      <label>Dominant Faction of the System</label>
+      <select v-model="systemFaction">
+        <option value="Korvax">Korvax</option>
+        <option value="Gek">Gek</option>
+        <option value="Vy'keen">Vy'keen</option>
+      </select>
+    </div>
 
-  <div>
-    <EconomySelect />
+    <div>
+      <EconomySelect />
+    </div>
   </div>
 </template>

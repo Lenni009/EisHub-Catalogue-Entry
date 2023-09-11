@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import ClassSelect from '../components/ClassSelect.vue';
-
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import type { MTType } from '../types/catalogue';
+import { ucFirst } from '../functions/functions';
 
 const catalogueDataStore = useCatalogueDataStore();
 const {
@@ -19,8 +19,6 @@ const {
 } = storeToRefs(catalogueDataStore);
 
 const subtypeSelect = ref<HTMLSelectElement | null>();
-
-const ucFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const isOnPlanet = computed(() => locationType.value !== 'space station');
 const srIsOnPlanet = computed(() => saveReloadLocationType.value !== 'space station');

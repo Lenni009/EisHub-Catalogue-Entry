@@ -1,24 +1,6 @@
 import { defineStore } from 'pinia';
-import type { ReloadLocation, StellarLocation, MTSubtype, MTType } from '../types/catalogue';
-
-function albumEntry(file: string, name: string, other: string = '', glyphs: string, discoverer: string, additionalInfo: string = '') {  // NoSonar this is fine
-  return `| {{album | file=${file} | name=${name} | other=${other} | glyph=${glyphs} | ${discoverer} }} ${additionalInfo}`;
-}
-
-function discovererParm(discovererReddit: string, discoverer: string) {
-  if (discovererReddit && discoverer && discovererReddit !== discoverer) {
-    return `| redditA=${discovererReddit} | redditD=${discoverer}`;
-  } else if (discovererReddit) {
-    return `| reddit=${discovererReddit}`;
-  } else {
-    return `| discoverer=${discoverer}`;
-  }
-}
-
-function addInfoMt(coordinates: string, srLocationName: string, mtLocationName: string, srLocType: StellarLocation, mtLocType: StellarLocation): string {
-
-  return '';
-}
+import type { StellarLocation, MTSubtype, MTType } from '../types/catalogue';
+import { albumEntry, discovererParm, addInfoMt } from '../functions/functions';
 
 interface State {
   name: string;
@@ -34,8 +16,8 @@ interface State {
   systemFaction: 'Korvax' | 'Vy\'keen' | 'Gek';
   saveReloadLocationName: string;
   locationName: string;
-  saveReloadLocationType: ReloadLocation;
-  locationType: ReloadLocation;
+  saveReloadLocationType: StellarLocation;
+  locationType: StellarLocation;
   notes: string;
   features: string;
   depth: string;
@@ -77,7 +59,7 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     starship: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>${state.economy}`, state.glyphs, discovererParm(state.discoverer, state.discovererReddit)),
     freighter: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>${state.economy} - ${state.systemFaction}`, state.glyphs, discovererParm(state.discoverer, state.discovererReddit)),
     frigate: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, state.tier, state.glyphs, discovererParm(state.discoverer, state.discovererReddit)),
-    multitool: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>{{class|${state.tier}}} - ${(['Experimental', 'Rifle', 'Pistol', 'Alien']).includes(state.type) ? state.subtype + '- ' : ''}${state.slots} Slots`, state.glyphs, discovererParm(state.discoverer, state.discovererReddit)),
+    multitool: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>{{class|${state.tier}}} - ${(['Experimental', 'Standard', 'Alien']).includes(state.type) ? state.subtype + ' - ' : ''}${state.slots} Slots`, state.glyphs, discovererParm(state.discoverer, state.discovererReddit, addInfoMt(state.coordinates, state.saveReloadLocationName, state.mtLocName, state.saveReloadLocationType, state.mtLocType))),
     creature: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `(${state.size}m)`, state.glyphs, discovererParm(state.discoverer, state.discovererReddit)),
     sandworm: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `(${state.depth}ku) < br > Stomach: ${state.stomach}`, state.glyphs, discovererParm(state.discoverer, state.discovererReddit)),
     flora: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, undefined, state.glyphs, discovererParm(state.discoverer, state.discovererReddit)),

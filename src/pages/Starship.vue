@@ -3,7 +3,9 @@ import EconomySelect from '../components/EconomySelect.vue';
 </script>
 
 <template>
-  <div>
-    <EconomySelect />
+  <div class="input-group">
+    <div>
+      <EconomySelect />
+    </div>
   </div>
 </template>

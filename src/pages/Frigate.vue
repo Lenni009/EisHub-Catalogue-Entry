@@ -3,7 +3,9 @@ import ClassSelect from '../components/ClassSelect.vue';
 </script>
 
 <template>
-  <div>
-    <ClassSelect />
+  <div class="input-group">
+    <div>
+      <ClassSelect />
+    </div>
   </div>
 </template>
