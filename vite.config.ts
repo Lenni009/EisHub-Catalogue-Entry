@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	base: '/eishub-catalogue-entry/',
+	base: '/EisHub-Catalogue-Entry/',
 	plugins: [
 		vue(),
 	],

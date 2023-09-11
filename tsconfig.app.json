@@ -4,7 +4,7 @@
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
-    "baseUrl": "/eishub-catalogue-entry/",
+    "baseUrl": "/EisHub-Catalogue-Entry/",
     "paths": {
       "@/*": ["./src/*"]
     }
