@@ -97,9 +97,9 @@ async function compressFile(file: File): Promise<File> {
 
   const newFullFileName = newFileName + '.' + fileExtension;
 
-  const newFile = new File([compressedFile], newFullFileName, { type: 'image/jpeg' });
   quality -= 0.01; // NoSonar reduce quality by 1%;
-  if (newFile.size > maxSize) return await compressFile(newFile);
+  if (compressedFile.size > maxSize) return await compressFile(file);  // compress original file with lower quality setting to avoid double compression
+  const newFile = new File([compressedFile], newFullFileName, { type: 'image/jpeg' });
   quality = 1; // reset quality
   return newFile;
 }
