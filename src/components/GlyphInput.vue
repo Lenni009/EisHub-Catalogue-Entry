@@ -26,49 +26,53 @@ function lintGlyphs() {
 </script>
 
 <template>
-  <label
-    class="label"
-    for="portalglyphsInput"
-    >Portalglyphs:</label
-  >
-  <input
-    :aria-invalid="(glyphs.length === 12 && !isGlyphsValid) || undefined"
-    class="glyphs-input"
-    id="portalglyphsInput"
-    type="text"
-    maxlength="12"
-    v-model="glyphs"
-    @input="lintGlyphs"
-  />
-  <button
-    class="delete-button is-error"
-    id="delButton"
-    role="button"
-    type="button"
-    @click="deleteGlyph"
-  >
-    &larr; Delete
-  </button>
-  <p v-if="glyphs.length === 12 && !isGlyphsValid">Glyphs are outside of EisHub space!</p>
-  <div class="portal-buttons grid">
-    <button
-      v-for="n in 16"
-      class="button glyphs"
-      type="button"
-      :id="'glyphButton' + n"
-      :value="(n - 1).toString(16).toUpperCase()"
-      @click="addGlyph"
+  <div>
+     <label
+       class="label"
+       for="portalglyphsInput"
+       >Portalglyphs:</label
     >
-      {{ (n - 1).toString(16).toUpperCase() }}
-    </button>
+    <div class="glyph-input-wrapper">
+      <input
+        :aria-invalid="(glyphs.length === 12 && !isGlyphsValid) || undefined"
+        class="glyphs-input"
+        id="portalglyphsInput"
+        type="text"
+        maxlength="12"
+        v-model="glyphs"
+        @input="lintGlyphs"
+      />
+      <button
+        class="delete-button is-error"
+        id="delButton"
+        role="button"
+        type="button"
+        @click="deleteGlyph"
+      >
+        &larr; Delete
+      </button>
+    </div>
+    <p v-if="glyphs.length === 12 && !isGlyphsValid">Glyphs are outside of EisHub space!</p>
+    <div class="portal-buttons grid">
+      <button
+        v-for="n in 16"
+        class="button glyphs"
+        type="button"
+        :id="'glyphButton' + n"
+        :value="(n - 1).toString(16).toUpperCase()"
+        @click="addGlyph"
+      >
+        {{ (n - 1).toString(16).toUpperCase() }}
+      </button>
+    </div>
+    <p>
+      <output
+        class="glyphs"
+        id="glyphDisplay"
+        >{{ glyphs }}</output
+      >
+    </p>
   </div>
-  <p>
-    <output
-      class="glyphs"
-      id="glyphDisplay"
-      >{{ glyphs }}</output
-    >
-  </p>
 </template>
 
 <style scoped lang="scss">
@@ -100,12 +104,17 @@ function lintGlyphs() {
   }
 }
 
-.delete-button {
-  margin-inline: 0.5em;
-  width: auto;
-}
 
-.glyphs-input {
-  width: min(max(30%, 10rem), 100%);
+.glyph-input-wrapper {
+display: flex;
+
+  .delete-button {
+    margin-inline: 0.5em;
+    width: auto;
+  }
+
+  .glyphs-input {
+    flex-grow: 1;
+  }
 }
 </style>
