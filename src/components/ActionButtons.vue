@@ -125,8 +125,22 @@ async function submitCatalogueEntry() {
   compressedFile.value = await compressFile(file.value);
   if (!compressedFile.value?.name) return;
 
-  formData.append(compressedFile.value.name, compressedFile.value);
-  formData.append('content', generateAlbumEntry(currentPage()).trim());
+  const fileName = compressedFile.value.name;
+
+  formData.append(fileName, compressedFile.value);
+  //formData.append('content', generateAlbumEntry(currentPage()).trim());
+  formData.append('embeds', [{
+    title: 'Hello World!',
+    description: generateAlbumEntry(currentPage()).trim(),
+    image: {
+      url: 'attachment://' + fileName,
+    },
+    attachments: [{
+      id: 0,
+      description: 'file',
+      filename: fileName,
+    }]
+  }]);
 
   console.log(formData);
   try {
