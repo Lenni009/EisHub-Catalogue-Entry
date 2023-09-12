@@ -160,7 +160,6 @@ async function submitCatalogueEntry() {
     })
   );
 
-  console.log(formData);
   try {
     if (import.meta.env.PROD || import.meta.env.VITE_ENABLE_WEBHOOK === 'true') {
       const response = await fetch(webhook, {
@@ -169,8 +168,7 @@ async function submitCatalogueEntry() {
       });
 
       if (response.ok) {
-        const data = await response.text();
-        console.log(data);
+        console.log('Upload successful.');
       } else {
         console.log('Upload failed.');
         throw new Error();

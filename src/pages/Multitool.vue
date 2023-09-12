@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import ClassSelect from '../components/ClassSelect.vue';
 import CoordinateInput from '../components/CoordinateInput.vue';
+import LocationPlanetInput from '../components/LocationPlanetInput.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import type { MTType } from '../types/catalogue';
@@ -64,12 +65,7 @@ watch(mtType, (newType, oldType) => {
     </div>
 
     <div v-show="isOnPlanet">
-      <label for="locInput">{{ ucFirst(locationType) }} Name</label>
-      <input
-        type="text"
-        id="locInput"
-        v-model="locationName"
-      />
+      <LocationPlanetInput :locationType="locationType" />
     </div>
 
     <div v-show="isOnPlanet">

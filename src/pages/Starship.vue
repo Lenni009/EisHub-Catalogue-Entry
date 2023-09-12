@@ -2,7 +2,7 @@
 import EconomySelect from '../components/EconomySelect.vue';
 import CoordinateInput from '../components/CoordinateInput.vue';
 import ClassSelect from '../components/ClassSelect.vue';
-import PlanetInput from '../components/PlanetInput.vue';
+import LocationPlanetInput from '../components/LocationPlanetInput.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
@@ -34,7 +34,7 @@ const isCrashedShip = computed(() => ['Interceptor', 'Living Ship'].includes(shi
     </div>
 
     <div v-show="isCrashedShip">
-      <PlanetInput />
+      <LocationPlanetInput />
     </div>
 
     <div v-show="isCrashedShip">
