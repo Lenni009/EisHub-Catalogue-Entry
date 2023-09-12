@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import ClassSelect from '../components/ClassSelect.vue';
+import CoordinateInput from '../components/CoordinateInput.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import type { MTType } from '../types/catalogue';
@@ -8,7 +9,7 @@ import { ucFirst } from '../functions/functions';
 
 const catalogueDataStore = useCatalogueDataStore();
 const {
-  type,
+  mtType,
   subtype,
   slots,
   locationName,
@@ -26,14 +27,14 @@ const srIsOnPlanet = computed(() => saveReloadLocationType.value !== 'space stat
 const planetaryTools: MTType[] = ['Atlantid', 'Royal', 'Sentinel'];
 const tieredMTs: MTType[] = ['Standard', 'Alien', 'Experimental'];
 
-const isInvalidLocation = computed(() => !isOnPlanet.value && planetaryTools.includes(type.value));
-const isTieredMT = computed(() => tieredMTs.includes(type.value));
+const isInvalidLocation = computed(() => !isOnPlanet.value && planetaryTools.includes(mtType.value));
+const isTieredMT = computed(() => tieredMTs.includes(mtType.value));
 
 watch(isInvalidLocation, (newValue) => {
   if (newValue) locationType.value = 'planet';
 });
 
-watch(type, (newType, oldType) => {
+watch(mtType, (newType, oldType) => {
   if (
     (!tieredMTs.includes(newType) && tieredMTs.includes(oldType)) ||
     (newType === 'Experimental' && subtype.value === 'SMG')
@@ -53,7 +54,7 @@ watch(type, (newType, oldType) => {
       <select v-model="locationType">
         <option
           value="space station"
-          v-if="!planetaryTools.includes(type)"
+          v-if="!planetaryTools.includes(mtType)"
         >
           Space Station
         </option>
@@ -72,14 +73,8 @@ watch(type, (newType, oldType) => {
     </div>
 
     <div v-show="isOnPlanet">
-      <label for="coordInput">Planetary Coordinates</label>
-      <input
-        type="text"
-        id="coordInput"
-        v-model="coordinates"
-      />
+      <CoordinateInput />
     </div>
-
     <div>
       <label>Save/Reload Location</label>
       <select v-model="saveReloadLocationType">
@@ -109,7 +104,7 @@ watch(type, (newType, oldType) => {
 
     <div>
       <label>Type</label>
-      <select v-model="type">
+      <select v-model="mtType">
         <option value="Standard">Standard</option>
         <option value="Starter Pistol">Starter Pistol</option>
         <option value="Experimental">Experimental</option>
@@ -133,7 +128,7 @@ watch(type, (newType, oldType) => {
           Rifle (Large)
         </option>
         <option
-          v-if="type !== 'Experimental'"
+          v-if="mtType !== 'Experimental'"
           value="SMG"
         >
           SMG (Medium)

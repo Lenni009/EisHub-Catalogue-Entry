@@ -176,15 +176,10 @@ async function submitCatalogueEntry() {
 const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
 
 const buttonTextContent = computed(() => {
-  if (isSending.value) {
-    return '';
-  } else if (isSent.value) {
-    return 'Submission Sent!';
-  } else if (sendFailed.value) {
-    return 'Submit failed!';
-  } else {
-    return 'Submit';
-  }
+  if (isSending.value) return '';
+  if (isSent.value) return 'Submission Sent!';
+  if (sendFailed.value) return 'Submit failed!';
+  return 'Submit';
 });
 </script>
 
