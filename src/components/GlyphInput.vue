@@ -23,52 +23,58 @@ function lintGlyphs() {
     .filter((char) => validGlyphsRegex.test(char))
     .join('');
 }
+
+const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar this is dec to hex
 </script>
 
 <template>
-  <label
-    class="label"
-    for="portalglyphsInput"
-    >Portalglyphs:</label
-  >
-  <input
-    :aria-invalid="(glyphs.length === 12 && !isGlyphsValid) || undefined"
-    class="glyphs-input"
-    id="portalglyphsInput"
-    type="text"
-    maxlength="12"
-    v-model="glyphs"
-    @input="lintGlyphs"
-  />
-  <button
-    class="delete-button is-error"
-    id="delButton"
-    role="button"
-    type="button"
-    @click="deleteGlyph"
-  >
-    &larr; Delete
-  </button>
-  <p v-if="glyphs.length === 12 && !isGlyphsValid">Glyphs are outside of EisHub space!</p>
-  <div class="portal-buttons grid">
-    <button
-      v-for="n in 16"
-      class="button glyphs"
-      type="button"
-      :id="'glyphButton' + n"
-      :value="(n - 1).toString(16).toUpperCase()"
-      @click="addGlyph"
+  <div>
+    <label
+      class="label"
+      for="portalglyphsInput"
+      >Portalglyphs:</label
     >
-      {{ (n - 1).toString(16).toUpperCase() }}
-    </button>
+    <div class="glyph-input-wrapper">
+      <input
+        :aria-invalid="(glyphs.length === 12 && !isGlyphsValid) || undefined"
+        class="glyphs-input"
+        id="portalglyphsInput"
+        type="text"
+        maxlength="12"
+        v-model="glyphs"
+        @input="lintGlyphs"
+      />
+      <button
+        class="delete-button is-error"
+        id="delButton"
+        role="button"
+        type="button"
+        @click="deleteGlyph"
+      >
+        &larr; Delete
+      </button>
+    </div>
+    <p v-if="glyphs.length === 12 && !isGlyphsValid">Glyphs are outside of EisHub space!</p>
+    <div class="portal-buttons grid">
+      <button
+        v-for="n in 16"
+        class="button glyphs"
+        type="button"
+        :id="'glyphButton' + n"
+        :value="numberToGlyph(n - 1)"
+        @click="addGlyph"
+      >
+        {{ numberToGlyph(n - 1) }}
+      </button>
+    </div>
+    <p v-show="glyphs">
+      <output
+        class="glyphs"
+        id="glyphDisplay"
+        >{{ glyphs }}</output
+      >
+    </p>
   </div>
-  <p>
-    <output
-      class="glyphs"
-      id="glyphDisplay"
-      >{{ glyphs }}</output
-    >
-  </p>
 </template>
 
 <style scoped lang="scss">
@@ -81,7 +87,7 @@ function lintGlyphs() {
 .portal-buttons {
   display: grid;
   grid-template-columns: repeat(8, auto);
-  max-width: 40rem;
+  max-width: 800px;
 
   .button {
     line-height: 3rem;
@@ -100,12 +106,19 @@ function lintGlyphs() {
   }
 }
 
-.delete-button {
-  margin-inline: 0.5em;
-  width: auto;
-}
+.glyph-input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 800px;
 
-.glyphs-input {
-  width: min(max(30%, 10rem), 100%);
+  .delete-button {
+    margin-inline-start: 0.5rem;
+    width: auto;
+  }
+
+  .glyphs-input {
+    flex-grow: 1;
+    width: auto;
+  }
 }
 </style>
