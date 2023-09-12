@@ -12,6 +12,7 @@ const form = ref<HTMLFormElement | null>(null);
 <template>
   <div class="subheading">{{ router.currentRoute.value.name }}</div>
   <form
+    class="form-wrapper"
     ref="form"
     @submit.prevent
   >
@@ -33,5 +34,11 @@ const form = ref<HTMLFormElement | null>(null);
   margin-block-start: -1rem;
   margin-block-end: 1rem;
   font-weight: bold;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 </style>

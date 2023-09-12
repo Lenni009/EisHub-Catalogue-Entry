@@ -65,7 +65,7 @@ function lintGlyphs() {
         {{ (n - 1).toString(16).toUpperCase() }}
       </button>
     </div>
-    <p>
+    <p v-show="glyphs">
       <output
         class="glyphs"
         id="glyphDisplay"
@@ -106,6 +106,7 @@ function lintGlyphs() {
 
 .glyph-input-wrapper {
   display: flex;
+  flex-wrap: wrap;
 
   .delete-button {
     margin-inline: 0.5em;
@@ -114,6 +115,7 @@ function lintGlyphs() {
 
   .glyphs-input {
     flex-grow: 1;
+    width: auto;
   }
 }
 </style>
