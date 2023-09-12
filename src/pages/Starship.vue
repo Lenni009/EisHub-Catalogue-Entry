@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import EconomySelect from "../components/EconomySelect.vue";
-import CoordinateInput from "../components/CoordinateInput.vue";
-import ClassSelect from "../components/ClassSelect.vue";
-import PlanetInput from "../components/PlanetInput.vue";
-import { useCatalogueDataStore } from "../stores/catalogueData";
-import { storeToRefs } from "pinia";
-import {computed} from 'vue';
+import EconomySelect from '../components/EconomySelect.vue';
+import CoordinateInput from '../components/CoordinateInput.vue';
+import ClassSelect from '../components/ClassSelect.vue';
+import PlanetInput from '../components/PlanetInput.vue';
+import { useCatalogueDataStore } from '../stores/catalogueData';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { shipType } = storeToRefs(catalogueDataStore);

@@ -27,10 +27,10 @@ function lintGlyphs() {
 
 <template>
   <div>
-     <label
-       class="label"
-       for="portalglyphsInput"
-       >Portalglyphs:</label
+    <label
+      class="label"
+      for="portalglyphsInput"
+      >Portalglyphs:</label
     >
     <div class="glyph-input-wrapper">
       <input
@@ -104,9 +104,8 @@ function lintGlyphs() {
   }
 }
 
-
 .glyph-input-wrapper {
-display: flex;
+  display: flex;
 
   .delete-button {
     margin-inline: 0.5em;

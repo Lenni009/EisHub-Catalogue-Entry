@@ -98,7 +98,7 @@ async function compressFile(file: File): Promise<File> {
   const newFullFileName = newFileName + '.' + fileExtension;
 
   quality -= 0.01; // NoSonar reduce quality by 1%;
-  if (compressedFile.size > maxSize) return await compressFile(file);  // compress original file with lower quality setting to avoid double compression
+  if (compressedFile.size > maxSize) return await compressFile(file); // compress original file with lower quality setting to avoid double compression
   const newFile = new File([compressedFile], newFullFileName, { type: 'image/jpeg' });
   quality = 1; // reset quality
   return newFile;
@@ -127,20 +127,38 @@ async function submitCatalogueEntry() {
 
   const fileName = compressedFile.value.name;
 
-  formData.append(fileName, compressedFile.value);
-  //formData.append('content', generateAlbumEntry(currentPage()).trim());
-  formData.append('embeds', [{
-    title: 'Hello World!',
-    description: generateAlbumEntry(currentPage()).trim(),
-    image: {
-      url: 'attachment://' + fileName,
-    },
-    attachments: [{
-      id: 0,
-      description: 'file',
-      filename: fileName,
-    }]
-  }]);
+  formData.append('file', compressedFile.value);
+  formData.append(
+    'payload_json',
+    JSON.stringify({
+      embeds: [
+        {
+          title: name.value,
+          image: {
+            url: 'attachment://' + fileName,
+          },
+          fields: [
+            {
+              name: 'Wiki Code',
+              value: '```' + generateAlbumEntry(currentPage()).trim() + '```',
+            },
+            {
+              name: 'Wiki Link',
+              value: '[Starship Catalogues](https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs)',
+            },
+            {
+              name: 'Notes',
+              value: notes.value,
+            },
+            {
+              name: 'Author',
+              value: contact.value,
+            },
+          ],
+        },
+      ],
+    })
+  );
 
   console.log(formData);
   try {
