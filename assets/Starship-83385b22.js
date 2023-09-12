@@ -1,1 +1,0 @@
-import{_ as e}from"./EconomySelect.vue_vue_type_script_setup_true_lang-89819bb2.js";import{d as a,b as o,e as s,f as t,o as r}from"./index-55f477a5.js";const n={class:"input-group"},d=a({__name:"Starship",setup:a=>(a,p)=>(r(),o("div",n,[s("div",null,[t(e)])]))});export{d as default};
