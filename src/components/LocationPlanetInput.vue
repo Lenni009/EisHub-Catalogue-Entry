@@ -8,7 +8,7 @@ const catalogueDataStore = useCatalogueDataStore();
 const { locationName } = storeToRefs(catalogueDataStore);
 
 interface Props {
-  locationType: StellarLocation;
+  locationType?: StellarLocation;
 }
 
 withDefaults(defineProps<Props>(), {

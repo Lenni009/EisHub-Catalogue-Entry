@@ -43,6 +43,11 @@ const isSending = ref(false);
 const isSent = ref(false);
 const sendFailed = ref(false);
 
+const currentStage = ref('Submit');
+const enableSubmissionSending = ref(false);
+
+const isDev = import.meta.env.DEV;
+
 const emit = defineEmits(['reset']);
 
 const fields: { [key: string]: string | File | null } = reactive({
@@ -107,7 +112,6 @@ async function compressFile(file: File): Promise<File> {
 function currentPage() {
   const path = router.currentRoute.value.path;
   const identifier = path.replace('/', '').toLowerCase();
-  console.log(router.currentRoute.value.path, identifier);
   return identifier;
 }
 
@@ -122,6 +126,7 @@ async function submitCatalogueEntry() {
 
   const formData = new FormData();
 
+  currentStage.value = 'Compressing Image...';
   compressedFile.value = await compressFile(file.value);
   if (!compressedFile.value?.name) return;
 
@@ -148,7 +153,7 @@ async function submitCatalogueEntry() {
             },
             {
               name: 'Notes',
-              value: notes.value,
+              value: notes.value || '-',
             },
             {
               name: 'Author',
@@ -161,42 +166,40 @@ async function submitCatalogueEntry() {
   );
 
   try {
-    if (import.meta.env.PROD || import.meta.env.VITE_ENABLE_WEBHOOK === 'true') {
+    if (import.meta.env.PROD || enableSubmissionSending.value) {
+      currentStage.value = 'Sending...';
       const response = await fetch(webhook, {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
+        isSent.value = true;
+        currentStage.value = 'Submission Sent!';
+        submittedEntries.value.add(name.value);
         console.log('Upload successful.');
       } else {
         console.log('Upload failed.');
         throw new Error();
       }
+    } else {
+      console.log(formData);
     }
-    isSent.value = true;
-    submittedEntries.value.add(name.value);
   } catch (error) {
+    currentStage.value = 'Submit failed!';
     sendFailed.value = true;
-    setTimeout(() => {
-      sendFailed.value = false;
-    }, 3000); // NoSonar wait 3 seconds
+    console.warn(error);
   } finally {
     isSending.value = false;
     setTimeout(() => {
       isSent.value = false;
+      sendFailed.value = false;
+      currentStage.value = 'Submit';
     }, 3000); // NoSonar wait 3 seconds
   }
 }
 
 const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
-
-const buttonTextContent = computed(() => {
-  if (isSending.value) return '';
-  if (isSent.value) return 'Submission Sent!';
-  if (sendFailed.value) return 'Submit failed!';
-  return 'Submit';
-});
 </script>
 
 <template>
@@ -213,7 +216,7 @@ const buttonTextContent = computed(() => {
       type="button"
       @click="openConfirmationDialog"
     >
-      {{ buttonTextContent }}
+      {{ currentStage }}
     </button>
     <button
       class="secondary"
@@ -224,12 +227,30 @@ const buttonTextContent = computed(() => {
       Reset Inputs
     </button>
   </div>
+  <div
+    v-if="isDev"
+    class="submission-toggle-wrapper"
+  >
+    <input
+      role="switch"
+      type="checkbox"
+      id="sendSubmissionToggle"
+      v-model="enableSubmissionSending"
+    />
+    <label for="sendSubmissionToggle">Enable Submission Sending</label>
+  </div>
 </template>
 
 <style scoped lang="scss">
 .buttons {
   display: flex;
   gap: 1rem;
-  margin-block: 1.25rem;
+  margin-block-start: 1.25rem;
+}
+
+.submission-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 </style>

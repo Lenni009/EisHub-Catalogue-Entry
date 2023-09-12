@@ -23,6 +23,8 @@ function lintGlyphs() {
     .filter((char) => validGlyphsRegex.test(char))
     .join('');
 }
+
+const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar this is dec to hex
 </script>
 
 <template>
@@ -59,10 +61,10 @@ function lintGlyphs() {
         class="button glyphs"
         type="button"
         :id="'glyphButton' + n"
-        :value="(n - 1).toString(16).toUpperCase()"
+        :value="numberToGlyph(n - 1)"
         @click="addGlyph"
       >
-        {{ (n - 1).toString(16).toUpperCase() }}
+        {{ numberToGlyph(n - 1) }}
       </button>
     </div>
     <p v-show="glyphs">
@@ -85,7 +87,7 @@ function lintGlyphs() {
 .portal-buttons {
   display: grid;
   grid-template-columns: repeat(8, auto);
-  max-width: 40rem;
+  max-width: 800px;
 
   .button {
     line-height: 3rem;
@@ -107,9 +109,10 @@ function lintGlyphs() {
 .glyph-input-wrapper {
   display: flex;
   flex-wrap: wrap;
+  max-width: 800px;
 
   .delete-button {
-    margin-inline: 0.5em;
+    margin-inline-start: 0.5rem;
     width: auto;
   }
 

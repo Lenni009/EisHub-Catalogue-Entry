@@ -63,7 +63,7 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     frigate: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, state.tier, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
     multitool: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>{{class|${state.tier}}} - ${(['Experimental', 'Standard', 'Alien']).includes(state.mtType) ? state.subtype + ' - ' : ''}${state.slots} Slots`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer), addInfoMt(state.coordinates, state.saveReloadLocationName, state.locationName, state.saveReloadLocationType, state.locationType)),
     creature: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `(${state.size}m)`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
-    sandworm: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `(${state.depth}ku) <br> Stomach: ${state.stomach}`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
+    sandworm: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `(${state.depth}ku)<br>Stomach: ${state.stomach}`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
     flora: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, undefined, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
     planet: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, state.features, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
   }
