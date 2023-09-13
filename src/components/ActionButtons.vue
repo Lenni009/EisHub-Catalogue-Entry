@@ -142,7 +142,7 @@ async function submitCatalogueEntry() {
             },
             {
               name: 'Wiki Link',
-              value: `[${catalogueUrl.value.split('/').pop()?.replace('_', '')}](${catalogueUrl.value})`,
+              value: `[${catalogueUrl.value.split('/').pop()?.replace('_', ' ')}](${catalogueUrl.value})`,
             },
             {
               name: 'Notes',
