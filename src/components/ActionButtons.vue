@@ -101,13 +101,9 @@ async function compressFile(file: File): Promise<File> {
   if (compressedFile.size > maxSize) return await compressFile(file); // compress original file with lower quality setting to avoid double compression
 
   const fileName = file.name.split('.').slice(0, -1).join('.');
-  const isCompressed = compressedFile.size !== file.size;
-  const newFileName = isCompressed ? fileName + '-min' : fileName;
-  const fileExtension = isCompressed ? 'jpg' : file.name.split('.').pop();
+  const newFileName = fileName + '-min.jpg';
 
-  const newFullFileName = newFileName + '.' + fileExtension;
-
-  const newFile = new File([compressedFile], newFullFileName, { type: 'image/jpeg' });
+  const newFile = new File([compressedFile], newFileName, { type: 'image/jpeg' });
   quality = 1; // reset quality
   return newFile;
 }
