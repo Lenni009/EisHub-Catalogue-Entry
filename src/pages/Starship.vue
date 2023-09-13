@@ -6,11 +6,16 @@ import LocationPlanetInput from '../components/LocationPlanetInput.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import { useCatalogueUrl } from '../composables/useCatalogueUrl';
 
 const catalogueDataStore = useCatalogueDataStore();
-const { shipType } = storeToRefs(catalogueDataStore);
+const { shipType, isCrashed } = storeToRefs(catalogueDataStore);
 
-const isCrashedShip = computed(() => ['Interceptor', 'Living Ship'].includes(shipType.value));
+const isAlwaysCrashed = computed(() => ['Interceptor', 'Living Ship'].includes(shipType.value));
+
+const isCrashedShip = computed(() => isAlwaysCrashed.value || isCrashed.value);
+
+useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
 </script>
 
 <template>
@@ -29,6 +34,18 @@ const isCrashedShip = computed(() => ['Interceptor', 'Living Ship'].includes(shi
       </select>
     </div>
 
+    <div
+      v-show="!isAlwaysCrashed"
+      class="checkbox-wrapper"
+    >
+      <label for="crashed">Crashed</label>
+      <input
+        id="crashed"
+        type="checkbox"
+        v-model="isCrashed"
+      />
+    </div>
+
     <div v-show="shipType !== 'Living Ship'">
       <EconomySelect />
     </div>
@@ -41,8 +58,18 @@ const isCrashedShip = computed(() => ['Interceptor', 'Living Ship'].includes(shi
       <CoordinateInput />
     </div>
 
-    <div v-show="shipType === 'Interceptor'">
+    <div v-show="isCrashed && shipType !== 'Living Ship'">
       <ClassSelect />
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.checkbox-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  flex-grow: 0;
+}
+</style>

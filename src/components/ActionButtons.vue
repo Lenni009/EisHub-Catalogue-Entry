@@ -5,7 +5,7 @@ import { useCatalogueDataStore } from '../stores/catalogueData';
 import { usePersistentDataStore } from '../stores/persistentData';
 import { storeToRefs } from 'pinia';
 import { compress, EImageType } from 'image-conversion';
-import router from '../router';
+import { useCurrentPage } from '../composables/useCurrentPage';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK);
 
@@ -36,7 +36,7 @@ const {
   planet,
 } = storeToRefs(catalogueDataStore);
 const persistentDataStore = usePersistentDataStore();
-const { requiredFields, contact, submittedEntries } = storeToRefs(persistentDataStore);
+const { requiredFields, contact, submittedEntries, catalogueUrl } = storeToRefs(persistentDataStore);
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
 const isSending = ref(false);
@@ -47,6 +47,8 @@ const currentStage = ref('Submit');
 const enableSubmissionSending = ref(false);
 
 const isDev = import.meta.env.DEV;
+
+const { currentPage } = useCurrentPage();
 
 const emit = defineEmits(['reset']);
 
@@ -95,24 +97,15 @@ async function compressFile(file: File): Promise<File> {
     type: EImageType.JPEG,
     scale: 1,
   });
-  const fileName = file.name.split('.').slice(0, -1).join('.');
-  const isCompressed = compressedFile.size !== file.size;
-  const newFileName = isCompressed ? fileName + '-min' : fileName;
-  const fileExtension = isCompressed ? 'jpg' : file.name.split('.').pop();
-
-  const newFullFileName = newFileName + '.' + fileExtension;
-
   quality -= 0.01; // NoSonar reduce quality by 1%;
   if (compressedFile.size > maxSize) return await compressFile(file); // compress original file with lower quality setting to avoid double compression
-  const newFile = new File([compressedFile], newFullFileName, { type: 'image/jpeg' });
+
+  const fileName = file.name.split('.').slice(0, -1).join('.');
+  const newFileName = fileName + '-min.jpg';
+
+  const newFile = new File([compressedFile], newFileName, { type: 'image/jpeg' });
   quality = 1; // reset quality
   return newFile;
-}
-
-function currentPage() {
-  const path = router.currentRoute.value.path;
-  const identifier = path.replace('/', '').toLowerCase();
-  return identifier;
 }
 
 function generateAlbumEntry(page: string): string {
@@ -145,11 +138,11 @@ async function submitCatalogueEntry() {
           fields: [
             {
               name: 'Wiki Code',
-              value: '```' + generateAlbumEntry(currentPage()).trim() + '```',
+              value: '```' + generateAlbumEntry(currentPage).trim() + '```',
             },
             {
               name: 'Wiki Link',
-              value: '[Starship Catalogues](https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs)',
+              value: `[${catalogueUrl.value.split('/').at(-1)?.replaceAll('_', ' ')}](${catalogueUrl.value})`,
             },
             {
               name: 'Notes',

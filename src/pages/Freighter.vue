@@ -2,9 +2,12 @@
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import EconomySelect from '../components/EconomySelect.vue';
+import { useCatalogueUrl } from '../composables/useCatalogueUrl';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { systemFaction } = storeToRefs(catalogueDataStore);
+
+useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Freighter_Catalog');
 </script>
 
 <template>

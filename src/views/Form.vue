@@ -4,13 +4,13 @@ import ActionButtons from '../components/ActionButtons.vue';
 import DefaultInputs from '../components/DefaultInputs.vue';
 import DiscovererInputs from '../components/DiscovererInputs.vue';
 import { ref } from 'vue';
-import router from '../router';
+import { useRoute } from 'vue-router';
 
 const form = ref<HTMLFormElement | null>(null);
 </script>
 
 <template>
-  <div class="subheading">{{ router.currentRoute.value.name }}</div>
+  <div class="subheading">{{ useRoute().name }}</div>
   <form
     class="form-wrapper"
     ref="form"

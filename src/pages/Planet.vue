@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useCatalogueUrl } from '../composables/useCatalogueUrl';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { features } = storeToRefs(catalogueDataStore);
+
+useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Planet_Albums');
 </script>
 
 <template>
