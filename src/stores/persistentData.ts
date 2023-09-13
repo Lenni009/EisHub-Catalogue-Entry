@@ -4,6 +4,7 @@ interface State {
   requiredFields: string[];
   contact: string;
   submittedEntries: Set<string>;
+  catalogueUrl: string;
 }
 
 const requiredFields: string[] = ['contact', 'name', 'glyphs', 'file', 'discoverer'];
@@ -13,6 +14,7 @@ export const usePersistentDataStore = defineStore('persistentData', {
     requiredFields: structuredClone(requiredFields),
     contact: '',
     submittedEntries: new Set(),
+    catalogueUrl: '',
   }),
 
   actions: {

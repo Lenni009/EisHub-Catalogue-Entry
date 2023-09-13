@@ -6,11 +6,14 @@ import LocationPlanetInput from '../components/LocationPlanetInput.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import { useCatalogueUrl } from '../composables/useCatalogueUrl';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { shipType } = storeToRefs(catalogueDataStore);
 
 const isCrashedShip = computed(() => ['Interceptor', 'Living Ship'].includes(shipType.value));
+
+useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
 </script>
 
 <template>

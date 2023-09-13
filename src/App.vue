@@ -1,5 +1,17 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
 import NavBar from './components/NavBar.vue';
+import { useCatalogueDataStore } from './stores/catalogueData';
+import { storeToRefs } from 'pinia';
+import { watch } from 'vue';
+
+const catalogueDataStore = useCatalogueDataStore();
+const { file, name } = storeToRefs(catalogueDataStore);
+
+watch(useRoute(), () => {
+  name.value = '';
+  file.value = null;
+});
 </script>
 
 <template>

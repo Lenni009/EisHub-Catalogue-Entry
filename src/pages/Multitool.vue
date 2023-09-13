@@ -7,17 +7,16 @@ import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import type { MTType } from '../types/catalogue';
 import { ucFirst } from '../functions/functions';
+import { useCatalogueUrl } from '../composables/useCatalogueUrl';
 
 const catalogueDataStore = useCatalogueDataStore();
 const {
   mtType,
   subtype,
   slots,
-  locationName,
   locationType,
   saveReloadLocationName,
   saveReloadLocationType,
-  coordinates,
 } = storeToRefs(catalogueDataStore);
 
 const subtypeSelect = ref<HTMLSelectElement | null>();
@@ -43,6 +42,8 @@ watch(mtType, (newType, oldType) => {
     subtype.value = '';
   }
 });
+
+useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
 </script>
 
 <template>

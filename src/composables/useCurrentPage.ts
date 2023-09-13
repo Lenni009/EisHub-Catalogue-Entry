@@ -1,9 +1,9 @@
 import { computed } from "vue";
-import router from "../router";
+import { useRoute } from "vue-router";
 
 export function useCurrentPage() {
   const currentPage = computed(() => {
-    const path = router.currentRoute.value.path;
+    const path = useRoute().path;
     const identifier = path.replace('/', '').toLowerCase();
     return identifier;
   });

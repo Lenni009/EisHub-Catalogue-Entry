@@ -36,7 +36,7 @@ const {
   planet,
 } = storeToRefs(catalogueDataStore);
 const persistentDataStore = usePersistentDataStore();
-const { requiredFields, contact, submittedEntries } = storeToRefs(persistentDataStore);
+const { requiredFields, contact, submittedEntries, catalogueUrl } = storeToRefs(persistentDataStore);
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
 const isSending = ref(false);
@@ -146,7 +146,7 @@ async function submitCatalogueEntry() {
             },
             {
               name: 'Wiki Link',
-              value: '[Starship Catalogues](https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs)',
+              value: `[${catalogueUrl.value.split('/').pop()?.replace('_', '')}](${catalogueUrl.value})`,
             },
             {
               name: 'Notes',
