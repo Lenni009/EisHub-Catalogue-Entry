@@ -2,14 +2,10 @@
 import { ref } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
-import { usePersistentDataStore } from '../stores/persistentData';
 import { useCatalogueUrl } from '../composables/useCatalogueUrl';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { size } = storeToRefs(catalogueDataStore);
-
-const persistentDataStore = usePersistentDataStore();
-const { catalogueUrl } = storeToRefs(persistentDataStore);
 
 const isFaulty = ref(false);
 

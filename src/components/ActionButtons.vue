@@ -138,11 +138,11 @@ async function submitCatalogueEntry() {
           fields: [
             {
               name: 'Wiki Code',
-              value: '```' + generateAlbumEntry(currentPage.value).trim() + '```',
+              value: '```' + generateAlbumEntry(currentPage).trim() + '```',
             },
             {
               name: 'Wiki Link',
-              value: `[${catalogueUrl.value.split('/').pop()?.replace('_', ' ')}](${catalogueUrl.value})`,
+              value: `[${catalogueUrl.value.split('/').at(-1)?.replaceAll('_', ' ')}](${catalogueUrl.value})`,
             },
             {
               name: 'Notes',
