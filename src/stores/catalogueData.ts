@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { StellarLocation, MTSubtype, MTType, ShipType } from '../types/catalogue';
+import type { StellarLocation, MTSubtype, MTType, ShipType, Tiers } from '../types/catalogue';
 import { albumEntry, discovererParm, addInfoMt, starshipOther } from '../functions/functions';
 
 interface State {
@@ -12,7 +12,7 @@ interface State {
   glyphs: string;
   coordinates: string;
   size: string;
-  tier: 'C' | 'B' | 'A' | 'S';
+  tier: Tiers;
   systemFaction: 'Korvax' | 'Vy\'keen' | 'Gek';
   saveReloadLocationName: string;
   locationName: string;
@@ -26,6 +26,7 @@ interface State {
   subtype: MTSubtype;
   mtType: MTType;
   shipType: ShipType;
+  isCrashed: boolean;
 }
 
 export const useCatalogueDataStore = defineStore('catalogueData', {
@@ -53,12 +54,13 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     slots: '',
     mtType: 'Standard',
     shipType: 'Fighter',
+    isCrashed: false,
   }),
 
   getters: {
     isGlyphsValid: (state) => /(?:[0-9A-F]{4})F(?:[89A])55(?:[5-7])C(?:[23])(?:[01F])/.test(state.glyphs), // tests if an address is valid for EisHub
 
-    starship: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, starshipOther(state.shipType, state.coordinates, state.locationName, state.economy), state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
+    starship: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, starshipOther(state.shipType, state.coordinates, state.locationName, state.economy, state.isCrashed, state.tier), state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
     freighter: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>${state.economy} - ${state.systemFaction}`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
     frigate: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, state.tier, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
     multitool: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>{{class|${state.tier}}} - ${(['Experimental', 'Standard', 'Alien']).includes(state.mtType) ? state.subtype + ' - ' : ''}${state.slots} Slots`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer), addInfoMt(state.coordinates, state.saveReloadLocationName, state.locationName, state.saveReloadLocationType, state.locationType)),
