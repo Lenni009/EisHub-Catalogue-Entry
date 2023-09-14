@@ -1,0 +1,1 @@
+import{u as o}from"./useCatalogueUrl-72454940.js";import{d as a}from"./index-124422fc.js";const m=a({__name:"Flora",setup:a=>(o("https://nomanssky.fandom.com/wiki/EisHub_Flora_Albums"),(o,a)=>null)});export{m as default};
