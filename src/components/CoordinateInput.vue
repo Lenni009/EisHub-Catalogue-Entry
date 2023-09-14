@@ -11,7 +11,7 @@ const isValidCoords = ref(true);
 const coordinatesValidationRegex = /^[+-](?:[0-9]{1,3})\.(?:[0-9]{2}), [+-](?:[0-9]{1,3})\.(?:[0-9]{2})$/;
 
 const checkCoordValidity = () =>
-  (isValidCoords.value = coordinatesValidationRegex.test(coordinates.value) || !coordinates.value);
+  (isValidCoords.value = coordinatesValidationRegex.test(coordinates.value.value) || !coordinates.value.value);
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const checkCoordValidity = () =>
     id="coordInput"
     placeholder="+0.00, -0.00"
     type="text"
-    v-model="coordinates"
+    v-model="coordinates.value"
     @change="checkCoordValidity"
   />
 </template>

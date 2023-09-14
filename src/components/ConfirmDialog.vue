@@ -4,7 +4,7 @@ import { ref } from 'vue';
 const dialogElement = ref<HTMLDialogElement | null>(null);
 const toggleModal = () => {
   dialogElement.value?.showModal();
-  (document.activeElement as HTMLElement | null)?.blur();
+  if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
 };
 
 defineExpose({

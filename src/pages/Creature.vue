@@ -14,7 +14,7 @@ function updateSize(e: Event) {
   const inputValue = e.target.value;
   const num = parseFloat(inputValue);
   const isNegative = inputValue.startsWith('-');
-  size.value = (isNegative ? '-' : '') + Math.abs(num).toFixed(1);
+  size.value.value = (isNegative ? '-' : '') + Math.abs(num).toFixed(1);
   isFaulty.value = isNaN(num) && inputValue !== '-' && Boolean(inputValue);
 }
 
@@ -29,7 +29,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Fauna_Albums');
         id="height"
         type="text"
         :aria-invalid="isFaulty || undefined"
-        :maxlength="size.toString().startsWith('-') ? 4 : 3"
+        :maxlength="size.value.startsWith('-') ? 4 : 3"
         @input="updateSize"
       />
     </div>

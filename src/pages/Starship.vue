@@ -11,9 +11,9 @@ import { useCatalogueUrl } from '../composables/useCatalogueUrl';
 const catalogueDataStore = useCatalogueDataStore();
 const { shipType, isCrashed } = storeToRefs(catalogueDataStore);
 
-const isAlwaysCrashed = computed(() => ['Interceptor', 'Living Ship'].includes(shipType.value));
+const isAlwaysCrashed = computed(() => ['Interceptor', 'Living Ship'].includes(shipType.value.value));
 
-const isCrashedShip = computed(() => isAlwaysCrashed.value || isCrashed.value);
+const isCrashedShip = computed(() => isAlwaysCrashed.value || isCrashed.value.value);
 
 useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
 </script>
@@ -22,7 +22,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
   <div class="input-group">
     <div>
       <label>Ship Type</label>
-      <select v-model="shipType">
+      <select v-model="shipType.value">
         <option value="Fighter">Fighter</option>
         <option value="Explorer">Explorer</option>
         <option value="Hauler">Hauler</option>
@@ -42,11 +42,11 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
       <input
         id="crashed"
         type="checkbox"
-        v-model="isCrashed"
+        v-model="isCrashed.value"
       />
     </div>
 
-    <div v-show="shipType !== 'Living Ship'">
+    <div v-show="shipType.value !== 'Living Ship'">
       <EconomySelect />
     </div>
 
@@ -58,7 +58,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
       <CoordinateInput />
     </div>
 
-    <div v-show="isCrashed && shipType !== 'Living Ship'">
+    <div v-show="isCrashed.value && shipType.value !== 'Living Ship'">
       <ClassSelect />
     </div>
   </div>

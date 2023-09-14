@@ -21,6 +21,6 @@ withDefaults(defineProps<Props>(), {
   <input
     type="text"
     id="locInput"
-    v-model="locationName"
+    v-model="locationName.value"
   />
 </template>

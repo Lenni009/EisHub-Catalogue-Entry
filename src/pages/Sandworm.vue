@@ -13,7 +13,7 @@ function updateDepth(e: Event) {
   if (!(e.target instanceof HTMLInputElement)) return;
   const inputValue = e.target.value;
   const num = parseFloat(inputValue);
-  depth.value = num.toFixed(1);
+  depth.value.value = num.toFixed(1);
   isFaulty.value = isNaN(num) && Boolean(inputValue);
 }
 
@@ -35,7 +35,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Shaihuluda_Album');
 
     <div>
       <label>Stomach Contents</label>
-      <select v-model="stomach">
+      <select v-model="stomach.value">
         <option value="Consumed waypoints">Consumed waypoints</option>
         <option value="Entire trade outpost">Entire trade outpost</option>
         <option value="Freighter components">Freighter components</option>

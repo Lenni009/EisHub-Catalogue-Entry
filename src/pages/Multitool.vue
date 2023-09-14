@@ -10,36 +10,30 @@ import { ucFirst } from '../functions/functions';
 import { useCatalogueUrl } from '../composables/useCatalogueUrl';
 
 const catalogueDataStore = useCatalogueDataStore();
-const {
-  mtType,
-  subtype,
-  slots,
-  locationType,
-  saveReloadLocationName,
-  saveReloadLocationType,
-} = storeToRefs(catalogueDataStore);
+const { mtType, subtype, slots, locationType, saveReloadLocationName, saveReloadLocationType } =
+  storeToRefs(catalogueDataStore);
 
 const subtypeSelect = ref<HTMLSelectElement | null>();
 
-const isOnPlanet = computed(() => locationType.value !== 'space station');
-const srIsOnPlanet = computed(() => saveReloadLocationType.value !== 'space station');
+const isOnPlanet = computed(() => locationType.value.value !== 'space station');
+const srIsOnPlanet = computed(() => saveReloadLocationType.value.value !== 'space station');
 
 const planetaryTools: MTType[] = ['Atlantid', 'Royal', 'Sentinel'];
 const tieredMTs: MTType[] = ['Standard', 'Alien', 'Experimental'];
 
-const isInvalidLocation = computed(() => !isOnPlanet.value && planetaryTools.includes(mtType.value));
-const isTieredMT = computed(() => tieredMTs.includes(mtType.value));
+const isInvalidLocation = computed(() => !isOnPlanet.value && planetaryTools.includes(mtType.value.value));
+const isTieredMT = computed(() => tieredMTs.includes(mtType.value.value));
 
 watch(isInvalidLocation, (newValue) => {
-  if (newValue) locationType.value = 'planet';
+  if (newValue) locationType.value.value = 'planet';
 });
 
 watch(mtType, (newType, oldType) => {
   if (
-    (!tieredMTs.includes(newType) && tieredMTs.includes(oldType)) ||
-    (newType === 'Experimental' && subtype.value === 'SMG')
+    (!tieredMTs.includes(newType.value) && tieredMTs.includes(oldType.value)) ||
+    (newType.value === 'Experimental' && subtype.value.value === 'SMG')
   ) {
-    subtype.value = '';
+    subtype.value.value = '';
   }
 });
 
@@ -53,10 +47,10 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
     </div>
     <div>
       <label>MT Location</label>
-      <select v-model="locationType">
+      <select v-model="locationType.value">
         <option
           value="space station"
-          v-if="!planetaryTools.includes(mtType)"
+          v-if="!planetaryTools.includes(mtType.value)"
         >
           Space Station
         </option>
@@ -66,7 +60,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
     </div>
 
     <div v-show="isOnPlanet">
-      <LocationPlanetInput :locationType="locationType" />
+      <LocationPlanetInput :locationType="locationType.value" />
     </div>
 
     <div v-show="isOnPlanet">
@@ -74,7 +68,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
     </div>
     <div>
       <label>Save/Reload Location</label>
-      <select v-model="saveReloadLocationType">
+      <select v-model="saveReloadLocationType.value">
         <option value="space station">Space Station</option>
         <option value="planet">Planet</option>
         <option value="moon">Moon</option>
@@ -82,11 +76,11 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
     </div>
 
     <div v-show="srIsOnPlanet">
-      <label for="srInput">Save/Reload {{ ucFirst(saveReloadLocationType) }} Name</label>
+      <label for="srInput">Save/Reload {{ ucFirst(saveReloadLocationType.value) }} Name</label>
       <input
         type="text"
         id="srInput"
-        v-model="saveReloadLocationName"
+        v-model="saveReloadLocationName.value"
       />
     </div>
 
@@ -95,13 +89,13 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
       <input
         type="text"
         id="slots"
-        v-model="slots"
+        v-model="slots.value"
       />
     </div>
 
     <div>
       <label>Type</label>
-      <select v-model="mtType">
+      <select v-model="mtType.value">
         <option value="Standard">Standard</option>
         <option value="Starter Pistol">Starter Pistol</option>
         <option value="Experimental">Experimental</option>
@@ -115,7 +109,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
     <div v-show="isTieredMT">
       <label>Subtype</label>
       <select
-        v-model="subtype"
+        v-model="subtype.value"
         ref="subtypeSelect"
       >
         <option
@@ -125,7 +119,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
           Rifle (Large)
         </option>
         <option
-          v-if="mtType !== 'Experimental'"
+          v-if="mtType.value !== 'Experimental'"
           value="SMG"
         >
           SMG (Medium)

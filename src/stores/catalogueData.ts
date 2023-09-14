@@ -1,72 +1,166 @@
 import { defineStore } from 'pinia';
-import type { StellarLocation, MTSubtype, MTType, ShipType, Tiers } from '../types/catalogue';
+import type { StellarLocation, MTSubtype, MTType, ShipType, Tiers, FormItem } from '../types/catalogue';
 import { albumEntry, discovererParm, addInfoMt, starshipOther } from '../functions/functions';
 
 interface State {
-  name: string;
-  discoverer: string;
-  discovererReddit: string;
-  file: File | null;
+  name: FormItem<string>;
+  discoverer: FormItem<string>;
+  discovererReddit: FormItem<string>;
+  file: FormItem<File | null>;
   compressedFile: File | null;
-  economy: '★★★ Economy' | '★★ Economy' | '★ Economy' | '{{BlackMarket}}' | '★ Economy (Abandoned)';
-  glyphs: string;
-  coordinates: string;
-  size: string;
-  tier: Tiers;
-  systemFaction: 'Korvax' | 'Vy\'keen' | 'Gek';
-  saveReloadLocationName: string;
-  locationName: string;
-  saveReloadLocationType: StellarLocation;
-  locationType: StellarLocation;
-  notes: string;
-  features: string;
-  depth: string;
-  stomach: string;
-  slots: string;
-  subtype: MTSubtype;
-  mtType: MTType;
-  shipType: ShipType;
-  isCrashed: boolean;
+  economy: FormItem<'★★★ Economy' | '★★ Economy' | '★ Economy' | '{{BlackMarket}}' | '★ Economy (Abandoned)'>;
+  glyphs: FormItem<string>;
+  coordinates: FormItem<string>;
+  size: FormItem<string>;
+  tier: FormItem<Tiers>;
+  systemFaction: FormItem<'Korvax' | 'Vy\'keen' | 'Gek'>;
+  saveReloadLocationName: FormItem<string>;
+  locationName: FormItem<string>;
+  saveReloadLocationType: FormItem<StellarLocation>;
+  locationType: FormItem<StellarLocation>;
+  notes: FormItem<string>;
+  features: FormItem<string>;
+  depth: FormItem<string>;
+  stomach: FormItem<string>;
+  slots: FormItem<string>;
+  subtype: FormItem<MTSubtype>;
+  mtType: FormItem<MTType>;
+  shipType: FormItem<ShipType>;
+  isCrashed: FormItem<boolean>;
 }
 
 export const useCatalogueDataStore = defineStore('catalogueData', {
   state: (): State => ({
-    name: '',
-    discoverer: '',
-    discovererReddit: '',
-    file: null,
+    name: {
+      isActive: true,
+      isRequired: true,
+      value: '',
+    },
+    discoverer: {
+      isActive: true,
+      isRequired: false,
+      value: '',
+    },
+    discovererReddit: {
+      isActive: true,
+      isRequired: false,
+      value: '',
+    },
+    file: {
+      isActive: true,
+      isRequired: true,
+      value: null,
+    },
     compressedFile: null,
-    economy: '★★★ Economy',
-    glyphs: '',
-    coordinates: '',
-    size: '',
-    tier: 'C', // this should be "class"
-    systemFaction: 'Korvax',
-    saveReloadLocationName: '',
-    locationName: '',
-    saveReloadLocationType: 'space station',
-    locationType: 'space station',
-    notes: '',
-    features: '',
-    depth: '',
-    stomach: '',
-    subtype: '',
-    slots: '',
-    mtType: 'Standard',
-    shipType: 'Fighter',
-    isCrashed: false,
+    economy: {
+      isActive: true,
+      isRequired: true,
+      value: '★★★ Economy',
+    },
+    glyphs: {
+      isRequired: true,
+      isActive: true,
+      value: '',
+    },
+    coordinates: {
+      isRequired: false,
+      isActive: true,
+      value: '',
+    },
+    size: {
+      isActive: true,
+      isRequired: true,
+      value: '',
+    },
+    tier: {
+      isActive: true,
+      isRequired: true,
+      value: 'C', // this should be "class"
+    },
+    systemFaction: {
+      isActive: false,
+      isRequired: true,
+      value: 'Korvax',
+    },
+    saveReloadLocationName: {
+      isActive: true,
+      isRequired: true,
+      value: '',
+    },
+    locationName: {
+      isActive: true,
+      isRequired: true,
+      value: '',
+    },
+    saveReloadLocationType: {
+      isActive: true,
+      isRequired: true,
+      value: 'space station',
+    },
+    locationType: {
+      isActive: false,
+      isRequired: true,
+      value: 'space station',
+    },
+    notes: {
+      isActive: true,
+      isRequired: false,
+      value: '',
+    },
+    features: {
+      isActive: true,
+      isRequired: false,
+      value: '',
+    },
+    depth: {
+      isActive: true,
+      isRequired: true,
+      value: '',
+    },
+    stomach: {
+      isActive: true,
+      isRequired: true,
+      value: '',
+    },
+    subtype: {
+      isActive: true,
+      isRequired: true,
+      value: '',
+    },
+    slots: {
+      isActive: true,
+      isRequired: true,
+      value: '',
+    },
+    mtType: {
+      isActive: true,
+      isRequired: true,
+      value: 'Standard',
+    },
+    shipType: {
+      isActive: true,
+      isRequired: true,
+      value: 'Fighter',
+    },
+    isCrashed: {
+      isActive: true,
+      isRequired: false,
+      value: false,
+    },
   }),
 
   getters: {
-    isGlyphsValid: (state) => /(?:[0-9A-F]{4})F(?:[89A])55(?:[5-7])C(?:[23])(?:[01F])/.test(state.glyphs), // tests if an address is valid for EisHub
+    isValidGlyphs: (state) => /(?:[0-9A-F]{4})F(?:[89A])55(?:[5-7])C(?:[23])(?:[01F])/.test(state.glyphs.value), // tests if an address is valid for EisHub
+    isValidCatalogueData: (state) => (Object.values(state).filter(item => item.isRequired && item.isActive)).every(item => item.value),
+    isValidDiscoverer: (state) => (state.discoverer.value || state.discovererReddit.value),
 
-    starship: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, starshipOther(state.shipType, state.coordinates, state.locationName, state.economy, state.isCrashed, state.tier), state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
-    freighter: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>${state.economy} - ${state.systemFaction}`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
-    frigate: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, state.tier, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
-    multitool: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `<br>{{class|${state.tier}}} - ${(['Experimental', 'Standard', 'Alien']).includes(state.mtType) ? state.subtype + ' - ' : ''}${state.slots} Slots`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer), addInfoMt(state.coordinates, state.saveReloadLocationName, state.locationName, state.saveReloadLocationType, state.locationType)),
-    creature: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `(${state.size}m)`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
-    sandworm: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, `(${state.depth}ku)<br>Stomach: ${state.stomach}`, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
-    flora: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, undefined, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
-    planet: (state) => albumEntry(state.compressedFile?.name ?? '', state.name, state.features, state.glyphs, discovererParm(state.discovererReddit, state.discoverer)),
+    starship: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, starshipOther(state.shipType.value, state.coordinates.value, state.locationName.value, state.economy.value, state.isCrashed.value, state.tier.value), state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
+    freighter: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, `<br>${state.economy.value} - ${state.systemFaction.value}`, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
+    frigate: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, state.tier.value, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
+    multitool: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, `<br>{{class|${state.tier.value}}} - ${(['Experimental', 'Standard', 'Alien']).includes(state.mtType.value) ? state.subtype.value + ' - ' : ''}${state.slots.value} Slots`, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value), addInfoMt(state.coordinates.value, state.saveReloadLocationName.value, state.locationName.value, state.saveReloadLocationType.value, state.locationType.value)),
+    creature: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, `(${state.size.value}m)`, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
+    sandworm: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, `(${state.depth.value}ku)<br>Stomach: ${state.stomach.value}`, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
+    flora: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, undefined, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
+    planet: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, state.features.value, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
   }
 });

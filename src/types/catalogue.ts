@@ -3,3 +3,8 @@ export type MTSubtype = 'Rifle' | 'SMG' | 'Pistol' | '';
 export type MTType = 'Experimental' | 'Standard' | 'Alien' | 'Royal' | 'Starter Pistol' | 'Atlantid' | 'Sentinel';
 export type ShipType = 'Fighter' | 'Explorer' | 'Hauler' | 'Shuttle' | 'Solar' | 'Exotic' | 'Interceptor' | 'Living Ship';
 export type Tiers = 'C' | 'B' | 'A' | 'S';
+export interface FormItem<T> {
+  isRequired: boolean;
+  isActive: boolean;
+  value: T;
+}

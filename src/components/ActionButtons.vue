@@ -12,19 +12,8 @@ const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK);
 const catalogueDataStore = useCatalogueDataStore();
 const {
   name,
-  discoverer,
-  discovererReddit,
   file,
-  economy,
-  coordinates,
-  size,
-  tier,
-  systemFaction,
-  saveReloadLocationName,
-  locationName,
   notes,
-  glyphs,
-  isGlyphsValid,
   compressedFile,
   starship,
   freighter,
@@ -34,9 +23,12 @@ const {
   sandworm,
   flora,
   planet,
+  isValidGlyphs,
+  isValidDiscoverer,
+  isValidCatalogueData,
 } = storeToRefs(catalogueDataStore);
 const persistentDataStore = usePersistentDataStore();
-const { requiredFields, contact, submittedEntries, catalogueUrl } = storeToRefs(persistentDataStore);
+const { contact, submittedEntries, catalogueUrl } = storeToRefs(persistentDataStore);
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
 const isSending = ref(false);
@@ -52,23 +44,6 @@ const { currentPage } = useCurrentPage();
 
 const emit = defineEmits(['reset']);
 
-const fields: { [key: string]: string | File | null } = reactive({
-  name,
-  discoverer,
-  discovererReddit,
-  file,
-  economy,
-  coordinates,
-  size,
-  tier,
-  systemFaction,
-  saveReloadLocationName,
-  locationName,
-  notes,
-  contact,
-  glyphs,
-});
-
 const albumStrings: { [key: string]: string } = reactive({
   starship,
   freighter,
@@ -80,7 +55,9 @@ const albumStrings: { [key: string]: string } = reactive({
   planet,
 });
 
-const isValidData = computed(() => requiredFields.value.every((field) => fields[field]) && isGlyphsValid.value);
+const isValidData = computed(
+  () => isValidCatalogueData.value && isValidGlyphs.value && isValidDiscoverer.value && contact.value
+);
 
 function reset() {
   catalogueDataStore.$reset();
@@ -108,19 +85,16 @@ async function compressFile(file: File): Promise<File> {
   return newFile;
 }
 
-function generateAlbumEntry(page: string): string {
-  return albumStrings[page];
-}
+const generateAlbumEntry = (page: string): string => albumStrings[page];
 
 async function submitCatalogueEntry() {
-  if (submittedEntries.value.has(name.value)) return;
-  if (!file.value) return;
+  if (submittedEntries.value.has(name.value.value) || !file.value.value) return;
   isSending.value = true;
 
   const formData = new FormData();
 
   currentStage.value = 'Compressing Image...';
-  compressedFile.value = await compressFile(file.value);
+  compressedFile.value = await compressFile(file.value.value);
   if (!compressedFile.value?.name) return;
 
   const fileName = compressedFile.value.name;
@@ -169,7 +143,7 @@ async function submitCatalogueEntry() {
       if (response.ok) {
         isSent.value = true;
         currentStage.value = 'Submission Sent!';
-        submittedEntries.value.add(name.value);
+        submittedEntries.value.add(name.value.value);
         console.log('Upload successful.');
       } else {
         console.log('Upload failed.');

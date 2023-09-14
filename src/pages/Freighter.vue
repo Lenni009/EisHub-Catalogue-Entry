@@ -14,7 +14,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Freighter_Catalog');
   <div class="input-group">
     <div>
       <label>Dominant Faction of the System</label>
-      <select v-model="systemFaction">
+      <select v-model="systemFaction.value">
         <option value="Korvax">Korvax</option>
         <option value="Gek">Gek</option>
         <option value="Vy'keen">Vy'keen</option>
