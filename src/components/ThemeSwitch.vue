@@ -3,7 +3,7 @@
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 switchTheme(prefersDark ? 'dark' : 'light');
 
-function switchTheme(theme: string | null = null) {
+function switchTheme(theme: string | undefined = undefined) {
   const currentTheme = document.documentElement.dataset.theme;
   const computedNewTheme = currentTheme == 'dark' ? 'light' : 'dark';
   const newTheme = theme ?? computedNewTheme;

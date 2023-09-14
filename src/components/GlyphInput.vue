@@ -5,19 +5,19 @@ import { storeToRefs } from 'pinia';
 const validGlyphsRegex = /[0-9A-F]/;
 
 const catalogueDataStore = useCatalogueDataStore();
-const { glyphs, isGlyphsValid } = storeToRefs(catalogueDataStore);
+const { glyphs, isValidGlyphs } = storeToRefs(catalogueDataStore);
 
 function addGlyph(e: Event) {
   if (!(e.target instanceof HTMLButtonElement)) return;
-  if (glyphs.value.length !== 12) glyphs.value += e.target.value; // NoSonar 12 is maximum glyph length
+  if (glyphs.value.value.length !== 12) glyphs.value.value += e.target.value; // NoSonar 12 is maximum glyph length
 }
 
 function deleteGlyph() {
-  glyphs.value = glyphs.value.slice(0, -1);
+  glyphs.value.value = glyphs.value.value.slice(0, -1);
 }
 
 function lintGlyphs() {
-  glyphs.value = glyphs.value
+  glyphs.value.value = glyphs.value.value
     .toUpperCase()
     .split('')
     .filter((char) => validGlyphsRegex.test(char))
@@ -36,12 +36,12 @@ const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar th
     >
     <div class="glyph-input-wrapper">
       <input
-        :aria-invalid="(glyphs.length === 12 && !isGlyphsValid) || undefined"
+        :aria-invalid="(glyphs.value.length === 12 && !isValidGlyphs) || undefined"
         class="glyphs-input"
         id="portalglyphsInput"
         type="text"
         maxlength="12"
-        v-model="glyphs"
+        v-model="glyphs.value"
         @input="lintGlyphs"
       />
       <button
@@ -54,7 +54,7 @@ const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar th
         &larr; Delete
       </button>
     </div>
-    <p v-if="glyphs.length === 12 && !isGlyphsValid">Glyphs are outside of EisHub space!</p>
+    <p v-if="glyphs.value.length === 12 && !isValidGlyphs">Glyphs are outside of EisHub space!</p>
     <div class="portal-buttons grid">
       <button
         v-for="n in 16"
@@ -67,11 +67,11 @@ const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar th
         {{ numberToGlyph(n - 1) }}
       </button>
     </div>
-    <p v-show="glyphs">
+    <p v-show="glyphs.value">
       <output
         class="glyphs"
         id="glyphDisplay"
-        >{{ glyphs }}</output
+        >{{ glyphs.value }}</output
       >
     </p>
   </div>

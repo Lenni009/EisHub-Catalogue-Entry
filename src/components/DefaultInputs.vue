@@ -10,7 +10,7 @@ const { currentPage } = useCurrentPage();
 
 function updateStoreFile(e: Event) {
   if (!(e.target instanceof HTMLInputElement) || !e.target.files?.length) return;
-  file.value = e.target.files[0];
+  file.value.value = e.target.files[0];
 }
 </script>
 
@@ -18,7 +18,7 @@ function updateStoreFile(e: Event) {
   <div class="input-group">
     <div v-if="currentPage === 'sandworm'">
       <label>Class</label>
-      <select v-model="name">
+      <select v-model="name.value">
         <option value="Ceaseless Burrower">Ceaseless Burrower</option>
         <option value="Colossal Being">Colossal Being</option>
         <option value="Gargantuan">Gargantuan</option>
@@ -35,7 +35,7 @@ function updateStoreFile(e: Event) {
       <input
         id="name"
         type="text"
-        v-model="name"
+        v-model="name.value"
       />
     </div>
 

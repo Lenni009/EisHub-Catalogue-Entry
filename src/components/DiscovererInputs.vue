@@ -16,7 +16,7 @@ const { contact } = storeToRefs(persistentDataStore);
       <input
         type="text"
         id="username"
-        v-model="discoverer"
+        v-model="discoverer.value"
       />
     </div>
 
@@ -25,7 +25,7 @@ const { contact } = storeToRefs(persistentDataStore);
       <input
         type="text"
         id="redditUsername"
-        v-model="discovererReddit"
+        v-model="discovererReddit.value"
       />
     </div>
 
@@ -34,7 +34,7 @@ const { contact } = storeToRefs(persistentDataStore);
       <input
         type="text"
         id="docUsername"
-        v-model="contact"
+        v-model="contact.value"
       />
     </div>
 
@@ -44,7 +44,7 @@ const { contact } = storeToRefs(persistentDataStore);
         class="textarea"
         id="notes"
         type="text"
-        v-model="notes"
+        v-model="notes.value"
       ></textarea>
     </div>
   </div>

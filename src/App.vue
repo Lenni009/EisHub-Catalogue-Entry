@@ -9,8 +9,8 @@ const catalogueDataStore = useCatalogueDataStore();
 const { file, name } = storeToRefs(catalogueDataStore);
 
 watch(useRoute(), () => {
-  name.value = '';
-  file.value = null;
+  name.value.value = '';
+  file.value.value = null;
 });
 </script>
 

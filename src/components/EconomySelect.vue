@@ -10,7 +10,7 @@ const { economy } = storeToRefs(catalogueDataStore);
   <label>Economy Tier</label>
   <select
     id="wealthInput"
-    v-model="economy"
+    v-model="economy.value"
   >
     <optgroup label="T3">
       <option value="★★★ Economy">Advanced</option>
