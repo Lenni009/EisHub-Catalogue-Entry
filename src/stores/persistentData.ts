@@ -13,7 +13,6 @@ export const usePersistentDataStore = defineStore('persistentData', {
     requiredFields: [],
     contact: {
       isActive: true,
-      isRequired: true,
       value: '',
     },
     submittedEntries: new Set(),

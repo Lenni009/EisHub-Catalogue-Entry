@@ -36,7 +36,7 @@ const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar th
     >
     <div class="glyph-input-wrapper">
       <input
-        :aria-invalid="!isValidGlyphs || undefined"
+        :aria-invalid="(glyphs.value.length === 12 && !isValidGlyphs) || undefined"
         class="glyphs-input"
         id="portalglyphsInput"
         type="text"

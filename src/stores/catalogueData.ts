@@ -33,126 +33,105 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
   state: (): State => ({
     name: {
       isActive: true,
-      isRequired: true,
       value: '',
     },
     discoverer: {
       isActive: true,
-      isRequired: false,
       value: '',
     },
     discovererReddit: {
       isActive: true,
-      isRequired: false,
       value: '',
     },
     file: {
       isActive: true,
-      isRequired: true,
       value: null,
     },
     compressedFile: null,
     economy: {
       isActive: true,
-      isRequired: true,
       value: '★★★ Economy',
     },
     glyphs: {
-      isRequired: true,
       isActive: true,
       value: '',
     },
     coordinates: {
-      isRequired: false,
-      isActive: true,
+      isActive: false,
       value: '',
     },
     size: {
       isActive: true,
-      isRequired: true,
       value: '',
     },
     tier: {
       isActive: true,
-      isRequired: true,
       value: 'C', // this should be "class"
     },
     systemFaction: {
       isActive: false,
-      isRequired: true,
       value: 'Korvax',
     },
     saveReloadLocationName: {
-      isActive: true,
-      isRequired: true,
+      isActive: false,
       value: '',
     },
     locationName: {
-      isActive: true,
-      isRequired: true,
+      isActive: false,
       value: '',
     },
     saveReloadLocationType: {
       isActive: true,
-      isRequired: true,
       value: 'space station',
     },
     locationType: {
-      isActive: false,
-      isRequired: true,
+      isActive: true,
       value: 'space station',
     },
     notes: {
       isActive: true,
-      isRequired: false,
       value: '',
     },
     features: {
       isActive: true,
-      isRequired: false,
       value: '',
     },
     depth: {
       isActive: true,
-      isRequired: true,
       value: '',
     },
     stomach: {
       isActive: true,
-      isRequired: true,
       value: '',
     },
     subtype: {
       isActive: true,
-      isRequired: true,
       value: '',
     },
     slots: {
       isActive: true,
-      isRequired: true,
       value: '',
     },
     mtType: {
       isActive: true,
-      isRequired: true,
       value: 'Standard',
     },
     shipType: {
       isActive: true,
-      isRequired: true,
       value: 'Fighter',
     },
     isCrashed: {
       isActive: true,
-      isRequired: false,
       value: false,
     },
   }),
 
   getters: {
     isValidGlyphs: (state) => /(?:[0-9A-F]{4})F(?:[89A])55(?:[5-7])C(?:[23])(?:[01F])/.test(state.glyphs.value), // tests if an address is valid for EisHub
-    isValidCatalogueData: (state) => (Object.values(state).filter(item => item.isRequired && item.isActive)).every(item => item.value),
-    isValidDiscoverer: (state) => (state.discoverer.value || state.discovererReddit.value),
+    isValidDiscoverer: (state) => (Boolean(state.discoverer.value || state.discovererReddit.value)),
+    isValidCoords: (state) => (/^[+-](?:[0-9]{1,3})\.(?:[0-9]{2}), [+-](?:[0-9]{1,3})\.(?:[0-9]{2})$/.test(state.coordinates.value) || !state.coordinates.value),
+    isValidDepth: (state) => (!isNaN(parseFloat(state.depth.value)) || !state.depth.value),
+    isValidSize: (state) => (!isNaN(parseFloat(state.size.value)) || !state.size.value),
 
     starship: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, starshipOther(state.shipType.value, state.coordinates.value, state.locationName.value, state.economy.value, state.isCrashed.value, state.tier.value), state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
     freighter: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, `<br>${state.economy.value} - ${state.systemFaction.value}`, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import ClassSelect from '../components/ClassSelect.vue';
 import CoordinateInput from '../components/CoordinateInput.vue';
 import LocationPlanetInput from '../components/LocationPlanetInput.vue';
@@ -8,15 +8,31 @@ import { storeToRefs } from 'pinia';
 import type { MTType } from '../types/catalogue';
 import { ucFirst } from '../functions/functions';
 import { useCatalogueUrl } from '../composables/useCatalogueUrl';
+import { useRequiredFieldDefinition } from '../composables/useRequiredFieldDefinition';
 
 const catalogueDataStore = useCatalogueDataStore();
-const { mtType, subtype, slots, locationType, saveReloadLocationName, saveReloadLocationType } =
-  storeToRefs(catalogueDataStore);
+const {
+  mtType,
+  subtype,
+  slots,
+  locationType,
+  saveReloadLocationName,
+  saveReloadLocationType,
+  coordinates,
+  locationName,
+} = storeToRefs(catalogueDataStore);
 
 const subtypeSelect = ref<HTMLSelectElement | null>();
 
 const isOnPlanet = computed(() => locationType.value.value !== 'space station');
 const srIsOnPlanet = computed(() => saveReloadLocationType.value.value !== 'space station');
+
+watchEffect(() => {
+  coordinates.value.isActive = isOnPlanet.value;
+  locationName.value.isActive = isOnPlanet.value;
+});
+
+watchEffect(() => (saveReloadLocationName.value.isActive = srIsOnPlanet.value));
 
 const planetaryTools: MTType[] = ['Atlantid', 'Royal', 'Sentinel'];
 const tieredMTs: MTType[] = ['Standard', 'Alien', 'Experimental'];
@@ -37,6 +53,7 @@ watch(mtType, (newType, oldType) => {
   }
 });
 
+useRequiredFieldDefinition(['coordinates', 'tier', 'slots', 'saveReloadLocation', 'saveReloadLocationType', 'locationType', 'locationName', 'subtype', 'mtType']);
 useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
 </script>
 
@@ -59,11 +76,11 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
       </select>
     </div>
 
-    <div v-show="isOnPlanet">
+    <div v-show="locationName.isActive">
       <LocationPlanetInput :locationType="locationType.value" />
     </div>
 
-    <div v-show="isOnPlanet">
+    <div v-show="coordinates.isActive">
       <CoordinateInput />
     </div>
     <div>
@@ -75,7 +92,7 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
       </select>
     </div>
 
-    <div v-show="srIsOnPlanet">
+    <div v-show="saveReloadLocationName.isActive">
       <label for="srInput">Save/Reload {{ ucFirst(saveReloadLocationType.value) }} Name</label>
       <input
         type="text"

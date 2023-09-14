@@ -6,6 +6,7 @@ import { usePersistentDataStore } from '../stores/persistentData';
 import { storeToRefs } from 'pinia';
 import { compress, EImageType } from 'image-conversion';
 import { useCurrentPage } from '../composables/useCurrentPage';
+import { useRequiredFields } from '../composables/useRequiredFields';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK);
 
@@ -23,14 +24,12 @@ const {
   sandworm,
   flora,
   planet,
-  isValidGlyphs,
-  isValidDiscoverer,
-  isValidCatalogueData,
 } = storeToRefs(catalogueDataStore);
 const persistentDataStore = usePersistentDataStore();
 const { contact, submittedEntries, catalogueUrl } = storeToRefs(persistentDataStore);
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
+
 const isSending = ref(false);
 const isSent = ref(false);
 const sendFailed = ref(false);
@@ -55,9 +54,7 @@ const albumStrings: { [key: string]: string } = reactive({
   planet,
 });
 
-const isValidData = computed(
-  () => isValidCatalogueData.value && isValidGlyphs.value && isValidDiscoverer.value && contact.value
-);
+const isValidData = computed(() => useRequiredFields().isValidData);
 
 function reset() {
   catalogueDataStore.$reset();
@@ -133,7 +130,7 @@ async function submitCatalogueEntry() {
   );
 
   try {
-    if (import.meta.env.PROD || enableSubmissionSending.value) {
+    if (!import.meta.env.DEV || enableSubmissionSending.value) {
       currentStage.value = 'Sending...';
       const response = await fetch(webhook, {
         method: 'POST',

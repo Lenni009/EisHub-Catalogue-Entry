@@ -5,16 +5,27 @@ import ClassSelect from '../components/ClassSelect.vue';
 import LocationPlanetInput from '../components/LocationPlanetInput.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, watchEffect } from 'vue';
 import { useCatalogueUrl } from '../composables/useCatalogueUrl';
+import { useRequiredFieldDefinition } from '../composables/useRequiredFieldDefinition';
 
 const catalogueDataStore = useCatalogueDataStore();
-const { shipType, isCrashed } = storeToRefs(catalogueDataStore);
+const { shipType, isCrashed, economy, coordinates, locationName, tier } = storeToRefs(catalogueDataStore);
 
 const isAlwaysCrashed = computed(() => ['Interceptor', 'Living Ship'].includes(shipType.value.value));
-
 const isCrashedShip = computed(() => isAlwaysCrashed.value || isCrashed.value.value);
+const isLivingShip = computed(() => shipType.value.value === 'Living Ship');
 
+watchEffect(() => (economy.value.isActive = !isLivingShip.value));
+
+watchEffect(() => {
+  coordinates.value.isActive = isCrashedShip.value;
+  locationName.value.isActive = isCrashedShip.value;
+});
+
+watchEffect(() => (tier.value.isActive = isCrashed.value.value && !isLivingShip.value));
+
+useRequiredFieldDefinition(['economy', 'coordinates', 'tier', 'locationName', 'shipType']);
 useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
 </script>
 
@@ -46,19 +57,19 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
       />
     </div>
 
-    <div v-show="shipType.value !== 'Living Ship'">
+    <div v-show="economy.isActive">
       <EconomySelect />
     </div>
 
-    <div v-show="isCrashedShip">
+    <div v-show="locationName.isActive">
       <LocationPlanetInput />
     </div>
 
-    <div v-show="isCrashedShip">
+    <div v-show="coordinates.isActive">
       <CoordinateInput />
     </div>
 
-    <div v-show="isCrashed.value && shipType.value !== 'Living Ship'">
+    <div v-show="tier.isActive">
       <ClassSelect />
     </div>
   </div>

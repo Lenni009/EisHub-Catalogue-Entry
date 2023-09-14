@@ -4,7 +4,6 @@ export type MTType = 'Experimental' | 'Standard' | 'Alien' | 'Royal' | 'Starter 
 export type ShipType = 'Fighter' | 'Explorer' | 'Hauler' | 'Shuttle' | 'Solar' | 'Exotic' | 'Interceptor' | 'Living Ship';
 export type Tiers = 'C' | 'B' | 'A' | 'S';
 export interface FormItem<T> {
-  isRequired: boolean;
   isActive: boolean;
   value: T;
 }

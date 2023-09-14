@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import { useCatalogueUrl } from '../composables/useCatalogueUrl';
+import { useRequiredFieldDefinition } from '../composables/useRequiredFieldDefinition';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { size } = storeToRefs(catalogueDataStore);
@@ -18,6 +19,7 @@ function updateSize(e: Event) {
   isFaulty.value = isNaN(num) && inputValue !== '-' && Boolean(inputValue);
 }
 
+useRequiredFieldDefinition(['size']);
 useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Fauna_Albums');
 </script>
 
