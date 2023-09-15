@@ -53,7 +53,17 @@ watch(mtType, (newType, oldType) => {
   }
 });
 
-useRequiredFieldDefinition(['coordinates', 'tier', 'slots', 'saveReloadLocation', 'saveReloadLocationType', 'locationType', 'locationName', 'subtype', 'mtType']);
+useRequiredFieldDefinition([
+  'coordinates',
+  'tier',
+  'slots',
+  'saveReloadLocationName',
+  'saveReloadLocationType',
+  'locationType',
+  'locationName',
+  'subtype',
+  'mtType',
+]);
 useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs');
 </script>
 
