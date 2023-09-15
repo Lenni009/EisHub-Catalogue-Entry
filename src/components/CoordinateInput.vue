@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { coordinates, isValidCoords } = storeToRefs(catalogueDataStore);
@@ -9,6 +9,9 @@ const { coordinates, isValidCoords } = storeToRefs(catalogueDataStore);
 const isValidCoordsOnChange = ref(true);
 
 const checkCoordValidity = () => (isValidCoordsOnChange.value = isValidCoords.value);
+
+onMounted(() => checkCoordValidity());
+watchEffect(() => (coordinates.value.isValid = isValidCoords.value));
 </script>
 
 <template>

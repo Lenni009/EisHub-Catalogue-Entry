@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watchEffect } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 
@@ -25,6 +26,8 @@ function lintGlyphs() {
 }
 
 const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar this is dec to hex
+
+watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
 </script>
 
 <template>

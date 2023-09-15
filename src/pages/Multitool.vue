@@ -18,6 +18,7 @@ const {
   saveReloadLocationType,
   coordinates,
   locationName,
+  isValidSlots,
 } = storeToRefs(catalogueDataStore);
 
 const subtypeSelect = ref<HTMLSelectElement | null>();
@@ -50,6 +51,8 @@ watch(mtType, (newType, oldType) => {
     subtype.value.value = '';
   }
 });
+
+watchEffect(() => (slots.value.isValid = isValidSlots.value));
 </script>
 
 <template>
@@ -99,6 +102,7 @@ watch(mtType, (newType, oldType) => {
     <div>
       <label for="slots">Slot Count</label>
       <input
+        :aria-invalid="!isValidSlots || undefined"
         type="text"
         id="slots"
         v-model="slots.value"

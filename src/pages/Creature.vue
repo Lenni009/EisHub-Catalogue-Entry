@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 
 const catalogueDataStore = useCatalogueDataStore();
-const { size } = storeToRefs(catalogueDataStore);
-
-const isFaulty = ref(false);
+const { size, isValidSize } = storeToRefs(catalogueDataStore);
 
 function updateSize(e: Event) {
   if (!(e.target instanceof HTMLInputElement)) return;
@@ -14,7 +11,7 @@ function updateSize(e: Event) {
   const num = parseFloat(inputValue);
   const isNegative = inputValue.startsWith('-');
   size.value.value = (isNegative ? '-' : '') + Math.abs(num).toFixed(1);
-  isFaulty.value = isNaN(num) && inputValue !== '-' && Boolean(inputValue);
+  size.value.isValid = isValidSize.value;
 }
 </script>
 
@@ -25,7 +22,7 @@ function updateSize(e: Event) {
       <input
         id="height"
         type="text"
-        :aria-invalid="isFaulty || undefined"
+        :aria-invalid="!isValidSize || undefined"
         :maxlength="size.value.startsWith('-') ? 4 : 3"
         @input="updateSize"
       />

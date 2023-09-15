@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 
 const catalogueDataStore = useCatalogueDataStore();
-const { depth, stomach } = storeToRefs(catalogueDataStore);
-
-const isFaulty = ref(false);
+const { depth, stomach, isValidDepth } = storeToRefs(catalogueDataStore);
 
 function updateDepth(e: Event) {
   if (!(e.target instanceof HTMLInputElement)) return;
   const inputValue = e.target.value;
   const num = parseFloat(inputValue);
   depth.value.value = num.toFixed(1);
-  isFaulty.value = isNaN(num) && Boolean(inputValue);
+  depth.value.isValid = isValidDepth.value;
 }
 </script>
 
@@ -24,7 +21,7 @@ function updateDepth(e: Event) {
       <input
         id="depth"
         type="text"
-        :aria-invalid="isFaulty || undefined"
+        :aria-invalid="!isValidDepth || undefined"
         maxlength="5"
         @input="updateDepth"
       />

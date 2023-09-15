@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import type { StellarLocation, MTSubtype, MTType, ShipType, Tiers, FormItem } from '../types/catalogue';
-import { albumEntry, discovererParm, addInfoMt, starshipOther } from '../functions/functions';
+import { albumEntry, discovererParm, addInfoMt, starshipOther, checkNumberString } from '../functions/functions';
 
 interface State {
   name: FormItem<string>;
@@ -54,14 +54,17 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     },
     glyphs: {
       isActive: true,
+      isValid: false,
       value: '',
     },
     coordinates: {
       isActive: false,
+      isValid: false,
       value: '',
     },
     size: {
       isActive: true,
+      isValid: false,
       value: '',
     },
     tier: {
@@ -98,6 +101,7 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     },
     depth: {
       isActive: true,
+      isValid: false,
       value: '',
     },
     stomach: {
@@ -110,6 +114,7 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     },
     slots: {
       isActive: true,
+      isValid: false,
       value: '',
     },
     mtType: {
@@ -130,8 +135,9 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
     isValidGlyphs: (state) => /(?:[0-9A-F]{4})F(?:[89A])55(?:[5-7])C(?:[23])(?:[01F])/.test(state.glyphs.value), // tests if an address is valid for EisHub
     isValidDiscoverer: (state) => (Boolean(state.discoverer.value || state.discovererReddit.value)),
     isValidCoords: (state) => (/^[+-](?:[0-9]{1,3})\.(?:[0-9]{2}), [+-](?:[0-9]{1,3})\.(?:[0-9]{2})$/.test(state.coordinates.value) || !state.coordinates.value),
-    isValidDepth: (state) => (!isNaN(parseFloat(state.depth.value)) || !state.depth.value),
-    isValidSize: (state) => (!isNaN(parseFloat(state.size.value)) || !state.size.value),
+    isValidDepth: (state) => (checkNumberString(state.depth.value)),
+    isValidSize: (state) => (checkNumberString(state.size.value)),
+    isValidSlots: (state) => (checkNumberString(state.slots.value)),
 
     starship: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, starshipOther(state.shipType.value, state.coordinates.value, state.locationName.value, state.economy.value, state.isCrashed.value, state.tier.value), state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
     freighter: (state) => albumEntry(state.compressedFile?.name ?? '', state.name.value, `<br>${state.economy.value} - ${state.systemFaction.value}`, state.glyphs.value, discovererParm(state.discovererReddit.value, state.discoverer.value)),
