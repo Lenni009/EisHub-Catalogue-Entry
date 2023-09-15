@@ -2,8 +2,6 @@
 import { ref } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
-import { useCatalogueUrl } from '../composables/useCatalogueUrl';
-import { useRequiredFieldDefinition } from '../composables/useRequiredFieldDefinition';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { depth, stomach } = storeToRefs(catalogueDataStore);
@@ -17,9 +15,6 @@ function updateDepth(e: Event) {
   depth.value.value = num.toFixed(1);
   isFaulty.value = isNaN(num) && Boolean(inputValue);
 }
-
-useRequiredFieldDefinition(['depth', 'stomach']);
-useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Shaihuluda_Album');
 </script>
 
 <template>

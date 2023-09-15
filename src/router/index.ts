@@ -24,7 +24,11 @@ const router = createRouter({
         {
           path: '',
           name: 'Starship',
-          component: () => import('../pages/Starship.vue')
+          component: () => import('../pages/Starship.vue'),
+          meta: {
+            requiredFields: ['economy', 'coordinates', 'tier', 'locationName', 'shipType'],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs',
+          }
         }
       ]
     },
@@ -35,7 +39,11 @@ const router = createRouter({
         {
           path: '',
           name: 'Freighter',
-          component: () => import('../pages/Freighter.vue')
+          component: () => import('../pages/Freighter.vue'),
+          meta: {
+            requiredFields: ['economy', 'systemFaction'],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Freighter_Catalog',
+          }
         }
       ]
     },
@@ -46,7 +54,11 @@ const router = createRouter({
         {
           path: '',
           name: 'Organic Frigate',
-          component: () => import('../pages/Frigate.vue')
+          component: () => import('../pages/Frigate.vue'),
+          meta: {
+            requiredFields: ['tier'],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Organic_Frigate_Catalog',
+          }
         }
       ]
     },
@@ -57,7 +69,11 @@ const router = createRouter({
         {
           path: '',
           name: 'Multi-Tool',
-          component: () => import('../pages/Multitool.vue')
+          component: () => import('../pages/Multitool.vue'),
+          meta: {
+            requiredFields: ['coordinates', 'tier', 'slots', 'saveReloadLocationName', 'saveReloadLocationType', 'locationType', 'locationName', 'subtype', 'mtType'],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs',
+          }
         }
       ]
     },
@@ -68,7 +84,11 @@ const router = createRouter({
         {
           path: '',
           name: 'Creature',
-          component: () => import('../pages/Creature.vue')
+          component: () => import('../pages/Creature.vue'),
+          meta: {
+            requiredFields: ['size'],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Fauna_Albums',
+          }
         }
       ]
     },
@@ -79,7 +99,11 @@ const router = createRouter({
         {
           path: '',
           name: 'Sandworm',
-          component: () => import('../pages/Sandworm.vue')
+          component: () => import('../pages/Sandworm.vue'),
+          meta: {
+            requiredFields: ['depth', 'stomach'],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Shaihuluda_Album',
+          }
         }
       ]
     },
@@ -90,7 +114,10 @@ const router = createRouter({
         {
           path: '',
           name: 'Flora',
-          component: () => import('../pages/Flora.vue')
+          component: () => import('../pages/Flora.vue'),
+          meta: {
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Flora_Albums',
+          }
         }
       ]
     },
@@ -101,7 +128,10 @@ const router = createRouter({
         {
           path: '',
           name: 'Planet',
-          component: () => import('../pages/Planet.vue')
+          component: () => import('../pages/Planet.vue'),
+          meta: {
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Planet_Albums',
+          }
         }
       ]
     },

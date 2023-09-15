@@ -6,8 +6,6 @@ import LocationPlanetInput from '../components/LocationPlanetInput.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import { computed, watchEffect } from 'vue';
-import { useCatalogueUrl } from '../composables/useCatalogueUrl';
-import { useRequiredFieldDefinition } from '../composables/useRequiredFieldDefinition';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { shipType, isCrashed, economy, coordinates, locationName, tier } = storeToRefs(catalogueDataStore);
@@ -24,9 +22,6 @@ watchEffect(() => {
 });
 
 watchEffect(() => (tier.value.isActive = isCrashed.value.value && !isLivingShip.value));
-
-useRequiredFieldDefinition(['economy', 'coordinates', 'tier', 'locationName', 'shipType']);
-useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
 </script>
 
 <template>
