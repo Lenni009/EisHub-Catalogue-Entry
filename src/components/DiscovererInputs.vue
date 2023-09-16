@@ -14,6 +14,7 @@ const { contact } = storeToRefs(persistentDataStore);
     <div>
       <label for="username">Discoverer</label>
       <input
+        class="required"
         type="text"
         id="username"
         v-model="discoverer.value"
