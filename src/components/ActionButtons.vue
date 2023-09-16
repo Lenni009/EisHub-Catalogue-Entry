@@ -84,18 +84,73 @@ async function compressFile(file: File): Promise<File> {
 
 const generateAlbumEntry = (page: string): string => albumStrings[page];
 
+async function handleCatalogueEntrySubmission() {
+  try {
+    await submitCatalogueEntry();
+  } catch (error) {
+    sendFailed.value = true;
+    if (error instanceof Error && error.message) currentStage.value = error.message;
+  } finally {
+    isSending.value = false;
+    setTimeout(() => {
+      isSent.value = false;
+      sendFailed.value = false;
+      currentStage.value = 'Submit';
+    }, 3000); // NoSonar wait 3 seconds
+  }
+}
+
 async function submitCatalogueEntry() {
-  if (submittedEntries.value.has(name.value.value) || !file.value.value) return;
+  // Initial data integrity check
+  if (!isValidData) throw new Error('Invalid Data!');
+  if (submittedEntries.value.has(name.value.value)) throw new Error('Cannot create the same entry twice!');
+  if (!file.value.value) throw new Error('Invalid File!');
+
+  // data seems valid, proceeding with sending
   isSending.value = true;
 
-  const formData = new FormData();
-
+  // compressing file
   currentStage.value = 'Compressing Image...';
-  compressedFile.value = await compressFile(file.value.value);
-  if (!compressedFile.value?.name) return;
+  try {
+    compressedFile.value = await compressFile(file.value.value);
+    if (!compressedFile.value?.name) throw new Error();
+  } catch {
+    throw new Error('Something went wrong during file compression');
+  }
 
+  const formData = buildFormData();
+
+  // sending the data
+  try {
+    if (!import.meta.env.DEV || enableSubmissionSending.value) {
+      currentStage.value = 'Sending...';
+      const response = await fetch(webhook, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Something went wrong during upload');
+      isSent.value = true;
+      currentStage.value = 'Submission Sent!';
+      submittedEntries.value.add(name.value.value);
+    } else {
+      console.log(formData);
+    }
+  } catch (error) {
+    currentStage.value = 'Upload failed!';
+    sendFailed.value = true;
+    console.warn(error);
+  }
+}
+
+function buildFormData() {
+  if (!compressedFile.value) throw new Error();
   const fileName = compressedFile.value.name;
 
+  // initialising form data object
+  const formData = new FormData();
+
+  // filling form data object
   formData.append('file', compressedFile.value);
   formData.append(
     'payload_json',
@@ -129,38 +184,7 @@ async function submitCatalogueEntry() {
     })
   );
 
-  try {
-    if (!import.meta.env.DEV || enableSubmissionSending.value) {
-      currentStage.value = 'Sending...';
-      const response = await fetch(webhook, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        isSent.value = true;
-        currentStage.value = 'Submission Sent!';
-        submittedEntries.value.add(name.value.value);
-        console.log('Upload successful.');
-      } else {
-        console.log('Upload failed.');
-        throw new Error();
-      }
-    } else {
-      console.log(formData);
-    }
-  } catch (error) {
-    currentStage.value = 'Submit failed!';
-    sendFailed.value = true;
-    console.warn(error);
-  } finally {
-    isSending.value = false;
-    setTimeout(() => {
-      isSent.value = false;
-      sendFailed.value = false;
-      currentStage.value = 'Submit';
-    }, 3000); // NoSonar wait 3 seconds
-  }
+  return formData;
 }
 
 const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
@@ -169,7 +193,7 @@ const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
 <template>
   <ConfirmDialog
     ref="confirmDialog"
-    @confirm="submitCatalogueEntry"
+    @confirm="handleCatalogueEntrySubmission"
   />
   <div class="buttons">
     <button

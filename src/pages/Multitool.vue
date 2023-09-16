@@ -7,6 +7,7 @@ import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import type { MTType } from '../types/catalogue';
 import { ucFirst } from '../functions/functions';
+import ErrorMessage from '../components/ErrorMessage.vue';
 
 const catalogueDataStore = useCatalogueDataStore();
 const {
@@ -61,7 +62,7 @@ watchEffect(() => (slots.value.isValid = isValidSlots.value));
       <ClassSelect />
     </div>
     <div>
-      <label>MT Location</label>
+      <label class="required">MT Location</label>
       <select v-model="locationType.value">
         <option
           value="space station"
@@ -82,7 +83,7 @@ watchEffect(() => (slots.value.isValid = isValidSlots.value));
       <CoordinateInput />
     </div>
     <div>
-      <label>Save/Reload Location</label>
+      <label class="required">Save/Reload Location</label>
       <select v-model="saveReloadLocationType.value">
         <option value="space station">Space Station</option>
         <option value="planet">Planet</option>
@@ -91,7 +92,11 @@ watchEffect(() => (slots.value.isValid = isValidSlots.value));
     </div>
 
     <div v-show="saveReloadLocationName.isActive">
-      <label for="srInput">Save/Reload {{ ucFirst(saveReloadLocationType.value) }} Name</label>
+      <label
+        class="required"
+        for="srInput"
+        >Save/Reload {{ ucFirst(saveReloadLocationType.value) }} Name</label
+      >
       <input
         type="text"
         id="srInput"
@@ -100,17 +105,22 @@ watchEffect(() => (slots.value.isValid = isValidSlots.value));
     </div>
 
     <div>
-      <label for="slots">Slot Count</label>
+      <label
+        class="required"
+        for="slots"
+        >Slot Count</label
+      >
       <input
         :aria-invalid="!isValidSlots || undefined"
         type="text"
         id="slots"
         v-model="slots.value"
       />
+      <ErrorMessage v-if="!isValidSlots">Must only contain numbers</ErrorMessage>
     </div>
 
     <div>
-      <label>Type</label>
+      <label class="required">Type</label>
       <select v-model="mtType.value">
         <option value="Standard">Standard</option>
         <option value="Starter Pistol">Starter Pistol</option>
@@ -123,7 +133,7 @@ watchEffect(() => (slots.value.isValid = isValidSlots.value));
     </div>
 
     <div v-show="isTieredMT">
-      <label>Subtype</label>
+      <label class="required">Subtype</label>
       <select
         v-model="subtype.value"
         ref="subtypeSelect"

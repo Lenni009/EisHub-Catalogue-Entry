@@ -10,7 +10,7 @@ const { systemFaction } = storeToRefs(catalogueDataStore);
 <template>
   <div class="input-group">
     <div>
-      <label>Dominant Faction of the System</label>
+      <label class="required">Dominant Faction of the System</label>
       <select v-model="systemFaction.value">
         <option value="Korvax">Korvax</option>
         <option value="Gek">Gek</option>

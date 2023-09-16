@@ -43,3 +43,9 @@ body {
     flex-grow: 1;
   }
 }
+
+.required::before {
+  content: '*';
+  color: coral;
+  margin-inline-end: 0.25rem;
+}

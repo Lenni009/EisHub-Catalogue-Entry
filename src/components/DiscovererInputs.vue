@@ -30,7 +30,11 @@ const { contact } = storeToRefs(persistentDataStore);
     </div>
 
     <div>
-      <label for="docUsername">Your Username (Discord, Reddit, etc.) for Contact</label>
+      <label
+        class="required"
+        for="docUsername"
+        >Your Username (Discord, Reddit, etc.) for Contact</label
+      >
       <input
         type="text"
         id="docUsername"

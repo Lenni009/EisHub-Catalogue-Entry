@@ -17,7 +17,11 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <label for="locInput">{{ ucFirst(locationType) }} Name</label>
+  <label
+    class="required"
+    for="locInput"
+    >{{ ucFirst(locationType) }} Name</label
+  >
   <input
     type="text"
     id="locInput"

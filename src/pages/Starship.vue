@@ -27,7 +27,7 @@ watchEffect(() => (tier.value.isActive = isCrashed.value.value && !isLivingShip.
 <template>
   <div class="input-group">
     <div>
-      <label>Ship Type</label>
+      <label class="required">Ship Type</label>
       <select v-model="shipType.value">
         <option value="Fighter">Fighter</option>
         <option value="Explorer">Explorer</option>
@@ -44,7 +44,10 @@ watchEffect(() => (tier.value.isActive = isCrashed.value.value && !isLivingShip.
       v-show="!isAlwaysCrashed"
       class="checkbox-wrapper"
     >
-      <label for="crashed">Crashed</label>
+      <label
+        for="crashed"
+        >Crashed</label
+      >
       <input
         id="crashed"
         type="checkbox"
