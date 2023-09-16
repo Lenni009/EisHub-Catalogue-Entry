@@ -41,3 +41,5 @@ export function starshipOther(type: ShipType, coordinates: string, locName: stri
   if (isCrashed) return crashed;
   return hasEconomy;
 }
+
+export const checkNumberString = (num: string) => !isNaN(parseFloat(num)) || !num;

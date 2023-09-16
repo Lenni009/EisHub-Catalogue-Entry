@@ -5,5 +5,6 @@ export type ShipType = 'Fighter' | 'Explorer' | 'Hauler' | 'Shuttle' | 'Solar' |
 export type Tiers = 'C' | 'B' | 'A' | 'S';
 export interface FormItem<T> {
   isActive: boolean;
+  isValid?: boolean;
   value: T;
 }

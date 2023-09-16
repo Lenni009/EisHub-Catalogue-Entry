@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { watchEffect } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
+import ErrorMessage from './ErrorMessage.vue';
 
 const validGlyphsRegex = /[0-9A-F]/;
 
@@ -9,7 +11,7 @@ const { glyphs, isValidGlyphs } = storeToRefs(catalogueDataStore);
 
 function addGlyph(e: Event) {
   if (!(e.target instanceof HTMLButtonElement)) return;
-  if (glyphs.value.value.length !== 12) glyphs.value.value += e.target.value; // NoSonar 12 is maximum glyph length
+  if (glyphs.value.value.length < 12) glyphs.value.value += e.target.value; // NoSonar 12 is maximum glyph length
 }
 
 function deleteGlyph() {
@@ -25,12 +27,14 @@ function lintGlyphs() {
 }
 
 const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar this is dec to hex
+
+watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
 </script>
 
 <template>
   <div>
     <label
-      class="label"
+      class="required"
       for="portalglyphsInput"
       >Portalglyphs:</label
     >
@@ -54,7 +58,11 @@ const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar th
         &larr; Delete
       </button>
     </div>
-    <p v-if="glyphs.value.length === 12 && !isValidGlyphs">Glyphs are outside of EisHub space!</p>
+    <ErrorMessage
+      v-if="glyphs.value.length === 12 && !isValidGlyphs"
+      class="error"
+      >Glyphs are outside of EisHub space!</ErrorMessage
+    >
     <div class="portal-buttons grid">
       <button
         v-for="n in 16"
@@ -67,7 +75,10 @@ const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar th
         {{ numberToGlyph(n - 1) }}
       </button>
     </div>
-    <p v-show="glyphs.value">
+    <p
+      v-show="glyphs.value"
+      class="glyph-display-wrapper"
+    >
       <output
         class="glyphs"
         id="glyphDisplay"
@@ -82,6 +93,10 @@ const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar th
   font-family: NMS-Glyphs-Mono;
   font-size: 3rem;
   word-break: break-word;
+}
+
+.glyph-display-wrapper {
+  margin-bottom: 0 !important;
 }
 
 .portal-buttons {
@@ -120,5 +135,9 @@ const numberToGlyph = (n: number) => n.toString(16).toUpperCase(); // NoSonar th
     flex-grow: 1;
     width: auto;
   }
+}
+
+.error {
+  margin-block-end: 0.5rem;
 }
 </style>

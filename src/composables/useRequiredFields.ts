@@ -24,10 +24,7 @@ export function useRequiredFields() {
     slots,
     mtType,
     shipType,
-    isValidGlyphs,
     isValidDiscoverer,
-    isValidDepth,
-    isValidSize,
   } = storeToRefs(catalogueDataStore);
 
   const persistentDataStore = usePersistentDataStore();
@@ -59,10 +56,9 @@ export function useRequiredFields() {
     contact,
   });
 
-  const standardFields: string[] = ['contact', 'name', 'file'];
-  standardFields.push(...requiredFields.value);
+  const standardFields: string[] = ['contact', 'name', 'file', ...requiredFields.value];
 
-  const isValidData = standardFields.filter((field) => fields[field].isActive).every(field => fields[field].value) && isValidGlyphs.value && isValidDiscoverer.value && isValidDepth.value && isValidSize.value;
+  const isValidData = standardFields.filter((field) => fields[field].isActive).every(field => fields[field].value && fields[field].isValid !== false) && isValidDiscoverer.value;
 
   return { isValidData };
 }

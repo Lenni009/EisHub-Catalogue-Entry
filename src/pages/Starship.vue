@@ -6,8 +6,6 @@ import LocationPlanetInput from '../components/LocationPlanetInput.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
 import { computed, watchEffect } from 'vue';
-import { useCatalogueUrl } from '../composables/useCatalogueUrl';
-import { useRequiredFieldDefinition } from '../composables/useRequiredFieldDefinition';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { shipType, isCrashed, economy, coordinates, locationName, tier } = storeToRefs(catalogueDataStore);
@@ -24,15 +22,12 @@ watchEffect(() => {
 });
 
 watchEffect(() => (tier.value.isActive = isCrashed.value.value && !isLivingShip.value));
-
-useRequiredFieldDefinition(['economy', 'coordinates', 'tier', 'locationName', 'shipType']);
-useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
 </script>
 
 <template>
   <div class="input-group">
     <div>
-      <label>Ship Type</label>
+      <label class="required">Ship Type</label>
       <select v-model="shipType.value">
         <option value="Fighter">Fighter</option>
         <option value="Explorer">Explorer</option>
@@ -49,7 +44,10 @@ useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs');
       v-show="!isAlwaysCrashed"
       class="checkbox-wrapper"
     >
-      <label for="crashed">Crashed</label>
+      <label
+        for="crashed"
+        >Crashed</label
+      >
       <input
         id="crashed"
         type="checkbox"

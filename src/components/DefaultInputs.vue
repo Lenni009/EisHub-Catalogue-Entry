@@ -17,7 +17,7 @@ function updateStoreFile(e: Event) {
 <template>
   <div class="input-group">
     <div v-if="currentPage === 'sandworm'">
-      <label>Class</label>
+      <label class="required">Class</label>
       <select v-model="name.value">
         <option value="Ceaseless Burrower">Ceaseless Burrower</option>
         <option value="Colossal Being">Colossal Being</option>
@@ -31,7 +31,11 @@ function updateStoreFile(e: Event) {
     </div>
 
     <div v-else>
-      <label for="name">Name</label>
+      <label
+        class="required"
+        for="name"
+        >Name</label
+      >
       <input
         id="name"
         type="text"
@@ -40,7 +44,11 @@ function updateStoreFile(e: Event) {
     </div>
 
     <div>
-      <label for="image">Upload Image</label>
+      <label
+        class="required"
+        for="image"
+        >Upload Image</label
+      >
       <input
         accept="image/*"
         id="image"

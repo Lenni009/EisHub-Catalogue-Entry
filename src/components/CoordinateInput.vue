@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
+import ErrorMessage from './ErrorMessage.vue';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { coordinates, isValidCoords } = storeToRefs(catalogueDataStore);
@@ -9,10 +10,17 @@ const { coordinates, isValidCoords } = storeToRefs(catalogueDataStore);
 const isValidCoordsOnChange = ref(true);
 
 const checkCoordValidity = () => (isValidCoordsOnChange.value = isValidCoords.value);
+
+onMounted(() => checkCoordValidity());
+watchEffect(() => (coordinates.value.isValid = isValidCoords.value));
 </script>
 
 <template>
-  <label for="coordInput">Planetary Coordinates</label>
+  <label
+    class="required"
+    for="coordInput"
+    >Planetary Coordinates</label
+  >
   <input
     :aria-invalid="!isValidCoordsOnChange || undefined"
     id="coordInput"
@@ -21,4 +29,5 @@ const checkCoordValidity = () => (isValidCoordsOnChange.value = isValidCoords.va
     v-model="coordinates.value"
     @change="checkCoordValidity"
   />
+  <ErrorMessage v-if="!isValidCoordsOnChange">Invalid coordinate format</ErrorMessage>
 </template>

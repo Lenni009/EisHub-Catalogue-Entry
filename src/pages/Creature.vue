@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { storeToRefs } from 'pinia';
-import { useCatalogueUrl } from '../composables/useCatalogueUrl';
-import { useRequiredFieldDefinition } from '../composables/useRequiredFieldDefinition';
+import ErrorMessage from '../components/ErrorMessage.vue';
 
 const catalogueDataStore = useCatalogueDataStore();
-const { size } = storeToRefs(catalogueDataStore);
-
-const isFaulty = ref(false);
+const { size, isValidSize } = storeToRefs(catalogueDataStore);
 
 function updateSize(e: Event) {
   if (!(e.target instanceof HTMLInputElement)) return;
@@ -16,24 +12,27 @@ function updateSize(e: Event) {
   const num = parseFloat(inputValue);
   const isNegative = inputValue.startsWith('-');
   size.value.value = (isNegative ? '-' : '') + Math.abs(num).toFixed(1);
-  isFaulty.value = isNaN(num) && inputValue !== '-' && Boolean(inputValue);
+  size.value.isValid = isValidSize.value;
 }
-
-useRequiredFieldDefinition(['size']);
-useCatalogueUrl('https://nomanssky.fandom.com/wiki/EisHub_Fauna_Albums');
 </script>
 
 <template>
   <div class="input-group">
     <div>
-      <label for="height">Creature Height</label>
+      <label
+        class="required"
+        for="height"
+        >Creature Height</label
+      >
       <input
         id="height"
         type="text"
-        :aria-invalid="isFaulty || undefined"
+        placeholder="0.0"
+        :aria-invalid="!isValidSize || undefined"
         :maxlength="size.value.startsWith('-') ? 4 : 3"
         @input="updateSize"
       />
+      <ErrorMessage v-if="!isValidSize">Must only contain numbers</ErrorMessage>
     </div>
   </div>
 </template>

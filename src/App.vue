@@ -1,14 +1,22 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
 import NavBar from './components/NavBar.vue';
 import { useCatalogueDataStore } from './stores/catalogueData';
+import { usePersistentDataStore } from './stores/persistentData';
 import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
+import router from './router';
 
 const catalogueDataStore = useCatalogueDataStore();
 const { file, name } = storeToRefs(catalogueDataStore);
 
-watch(useRoute(), () => {
+const persistentDataStore = usePersistentDataStore();
+const { requiredFields, catalogueUrl } = storeToRefs(persistentDataStore);
+
+router.afterEach((to) => {
+  const newCatalogueUrl = to.meta.catalogueUrl;
+  const newRequiredFields = to.meta.requiredFields;
+  catalogueUrl.value = typeof newCatalogueUrl === 'string' ? newCatalogueUrl : '';
+  requiredFields.value = Array.isArray(newRequiredFields) ? newRequiredFields : [];
+
   name.value.value = '';
   file.value.value = null;
 });

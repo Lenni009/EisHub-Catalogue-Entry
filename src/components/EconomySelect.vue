@@ -7,7 +7,7 @@ const { economy } = storeToRefs(catalogueDataStore);
 </script>
 
 <template>
-  <label>Economy Tier</label>
+  <label class="required">Economy Tier</label>
   <select
     id="wealthInput"
     v-model="economy.value"

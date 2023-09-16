@@ -7,7 +7,7 @@ const { tier } = storeToRefs(catalogueDataStore);
 </script>
 
 <template>
-  <label>Class</label>
+  <label class="required">Class</label>
   <select v-model="tier.value">
     <option value="C">C</option>
     <option value="B">B</option>
