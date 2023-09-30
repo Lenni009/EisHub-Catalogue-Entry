@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import ErrorNotFound from '../views/404.vue';
 import Home from '../views/Home.vue';
 import Form from '../views/Form.vue';
@@ -13,9 +13,9 @@ const router = createRouter({
         {
           path: '',
           name: 'Home',
-          component: () => import('../pages/Home.vue')
-        }
-      ]
+          component: () => import('../pages/Home.vue'),
+        },
+      ],
     },
     {
       path: '/starship',
@@ -28,9 +28,9 @@ const router = createRouter({
           meta: {
             requiredFields: ['economy', 'coordinates', 'tier', 'locationName', 'shipType'],
             catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Starship_Catalogues',
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/freighter',
@@ -43,9 +43,9 @@ const router = createRouter({
           meta: {
             requiredFields: ['economy', 'systemFaction'],
             catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Freighter_Catalogue',
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/frigate',
@@ -58,9 +58,9 @@ const router = createRouter({
           meta: {
             requiredFields: ['tier'],
             catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Organic_Frigate_Catalogue',
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/multitool',
@@ -71,11 +71,21 @@ const router = createRouter({
           name: 'Multi-Tool',
           component: () => import('../pages/Multitool.vue'),
           meta: {
-            requiredFields: ['coordinates', 'tier', 'slots', 'saveReloadLocationName', 'saveReloadLocationType', 'locationType', 'locationName', 'subtype', 'mtType'],
+            requiredFields: [
+              'coordinates',
+              'tier',
+              'slots',
+              'saveReloadLocationName',
+              'saveReloadLocationType',
+              'locationType',
+              'locationName',
+              'subtype',
+              'mtType',
+            ],
             catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Multi-Tool_Catalogues',
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/creature',
@@ -88,9 +98,9 @@ const router = createRouter({
           meta: {
             requiredFields: ['size'],
             catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana#Fauna_&_Flora',
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/sandworm',
@@ -103,9 +113,9 @@ const router = createRouter({
           meta: {
             requiredFields: ['depth', 'stomach'],
             catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Rare_Fauna_Album',
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/flora',
@@ -117,9 +127,9 @@ const router = createRouter({
           component: () => import('../pages/Flora.vue'),
           meta: {
             catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Flora_Albums',
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/planet',
@@ -131,15 +141,30 @@ const router = createRouter({
           component: () => import('../pages/Planet.vue'),
           meta: {
             catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Planet_Albums',
-          }
-        }
-      ]
+          },
+        },
+      ],
+    },
+    {
+      path: '/artifact',
+      component: Form,
+      children: [
+        {
+          path: '',
+          name: 'Artifact',
+          component: () => import('../pages/Artifact.vue'),
+          meta: {
+            requiredFields: ['artifactType', 'artifactRarity', 'modifier', 'value'],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Special:Upload',
+          },
+        },
+      ],
     },
     {
       path: '/:catchAll(.*)*',
-      component: ErrorNotFound
-    }
-  ]
-})
+      component: ErrorNotFound,
+    },
+  ],
+});
 
-export default router
+export default router;

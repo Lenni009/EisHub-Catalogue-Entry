@@ -1,7 +1,7 @@
-import { reactive } from "vue";
+import { reactive } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { usePersistentDataStore } from '../stores/persistentData';
-import { storeToRefs } from "pinia";
+import { storeToRefs } from 'pinia';
 
 export function useRequiredFields() {
   const catalogueDataStore = useCatalogueDataStore();
@@ -25,6 +25,12 @@ export function useRequiredFields() {
     mtType,
     shipType,
     isValidDiscoverer,
+    artifactType,
+    artifactRarity,
+    modifier,
+    value,
+    id,
+    isValidGlyphs,
   } = storeToRefs(catalogueDataStore);
 
   const persistentDataStore = usePersistentDataStore();
@@ -32,8 +38,8 @@ export function useRequiredFields() {
 
   const fields: {
     [key: string]: {
-      [key: string]: string | File | null | boolean
-    }
+      [key: string]: string | File | null | boolean;
+    };
   } = reactive({
     name,
     file,
@@ -54,11 +60,21 @@ export function useRequiredFields() {
     mtType,
     shipType,
     contact,
+    artifactType,
+    artifactRarity,
+    modifier,
+    value,
+    id,
   });
 
   const standardFields: string[] = ['contact', 'name', 'file', ...requiredFields.value];
 
-  const isValidData = standardFields.filter((field) => fields[field].isActive).every(field => fields[field].value && fields[field].isValid !== false) && isValidDiscoverer.value;
+  const isValidData =
+    standardFields
+      .filter((field) => fields[field].isActive)
+      .every((field) => fields[field].value && fields[field].isValid !== false) &&
+    isValidDiscoverer.value &&
+    isValidGlyphs.value;
 
   return { isValidData };
 }

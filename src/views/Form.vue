@@ -3,10 +3,17 @@ import GlyphInput from '../components/GlyphInput.vue';
 import ActionButtons from '../components/ActionButtons.vue';
 import DefaultInputs from '../components/DefaultInputs.vue';
 import DiscovererInputs from '../components/DiscovererInputs.vue';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { useCatalogueDataStore } from '@/stores/catalogueData';
 
 const form = ref<HTMLFormElement | null>(null);
+
+const catalogueDataStore = useCatalogueDataStore();
+const { isArtifact, glyphs } = storeToRefs(catalogueDataStore);
+
+watchEffect(() => (glyphs.value.isActive = !isArtifact));
 </script>
 
 <template>
@@ -17,7 +24,7 @@ const form = ref<HTMLFormElement | null>(null);
     @submit.prevent
   >
     <DefaultInputs />
-    <GlyphInput />
+    <GlyphInput v-if="!isArtifact" />
 
     <router-view />
 

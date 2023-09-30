@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 import router from './router';
 
 const catalogueDataStore = useCatalogueDataStore();
-const { file, name } = storeToRefs(catalogueDataStore);
+const { file, name, isArtifact } = storeToRefs(catalogueDataStore);
 
 const persistentDataStore = usePersistentDataStore();
 const { requiredFields, catalogueUrl } = storeToRefs(persistentDataStore);
@@ -17,6 +17,7 @@ router.afterEach((to) => {
   catalogueUrl.value = typeof newCatalogueUrl === 'string' ? newCatalogueUrl : '';
   requiredFields.value = Array.isArray(newRequiredFields) ? newRequiredFields : [];
 
+  isArtifact.value = to.name === 'Artifact';
   name.value.value = '';
   file.value.value = null;
 });

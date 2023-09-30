@@ -40,6 +40,10 @@ import NavLink from '../components/NavLink.vue';
         route="/planet"
         title="Planet"
       />
+      <NavLink
+        route="/artifact"
+        title="Artifact"
+      />
     </nav>
 
     <p>
@@ -81,9 +85,9 @@ import NavLink from '../components/NavLink.vue';
 
 .link-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
   gap: 2rem;
-  width: min(100%, 600px);
+  max-width: 900px;
   font-size: 1.5rem;
   margin-inline: auto;
   margin-block: 3rem;

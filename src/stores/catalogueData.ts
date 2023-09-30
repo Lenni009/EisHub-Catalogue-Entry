@@ -28,10 +28,31 @@ interface State {
   mtType: FormItem<MTType>;
   shipType: FormItem<ShipType>;
   isCrashed: FormItem<boolean>;
+  artifactType: FormItem<
+    | 'Ancient Skeleton'
+    | 'Aquatic Treasure'
+    | 'Biological Sample'
+    | 'Delicate Flora (FARM)'
+    | 'Delicate Flora (PLNT)'
+    | 'Excavated Bones'
+    | 'Fossil Sample'
+    | 'Historical Document'
+    | 'Lost Artifact'
+    | 'Salvaged Scrap'
+    | 'Terrifying Sample'
+    | 'Unearthed Treasure'
+  >;
+  artifactRarity: FormItem<'Common' | 'Uncommon' | 'Rare'>;
+  modifier: FormItem<string>;
+  value: FormItem<string>;
+  id: FormItem<string>;
+  version: 'Echoes';
+  isArtifact: boolean;
 }
 
 export const useCatalogueDataStore = defineStore('catalogueData', {
   state: (): State => ({
+    version: 'Echoes',
     name: {
       isActive: true,
       value: '',
@@ -130,17 +151,45 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
       isActive: true,
       value: false,
     },
+    artifactType: {
+      isActive: true,
+      value: 'Ancient Skeleton',
+    },
+    artifactRarity: {
+      isActive: true,
+      value: 'Common',
+    },
+    modifier: {
+      isActive: true,
+      isValid: false,
+      value: '',
+    },
+    value: {
+      isActive: true,
+      isValid: false,
+      value: '',
+    },
+    id: {
+      isActive: true,
+      isValid: false,
+      value: '',
+    },
+    isArtifact: false,
   }),
 
   getters: {
-    isValidGlyphs: (state) => regions.includes(state.glyphs.value.substring(4)), // NoSonar region glyphs start at index 4. Tests if an address is valid for Eisvana
-    isValidDiscoverer: (state) => Boolean(state.discoverer.value || state.discovererReddit.value),
+    isValidGlyphs: (state) => state.isArtifact || regions.includes(state.glyphs.value.substring(4)), // NoSonar region glyphs start at index 4. Tests if an address is valid for Eisvana
+    isValidDiscoverer: (state) =>
+      Boolean(state.isArtifact || (state.discoverer.value || state.discovererReddit.value)),
     isValidCoords: (state) =>
       /^[+-](?:[0-9]{1,3})\.(?:[0-9]{2}), [+-](?:[0-9]{1,3})\.(?:[0-9]{2})$/.test(state.coordinates.value) ||
       !state.coordinates.value,
     isValidDepth: (state) => checkNumberString(state.depth.value),
     isValidSize: (state) => checkNumberString(state.size.value),
     isValidSlots: (state) => checkNumberString(state.slots.value),
+    isValidValue: (state) => checkNumberString(state.value.value),
+    isValidModifier: (state) => checkNumberString(state.modifier.value),
+    isValidId: (state) => checkNumberString(state.id.value),
 
     starship: (state) =>
       albumEntry(
@@ -222,5 +271,16 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
         state.glyphs.value,
         discovererParm(state.discovererReddit.value, state.discoverer.value)
       ),
+    artifact: (state) =>
+      `{{Artifact
+        | name = ${state.name.value}
+        | image =
+        | type = ${state.artifactType.value}
+        | rarity = ${state.artifactRarity.value}
+        | modifier = ${state.modifier.value}
+        | value = ${state.value.value}
+        | id = ${state.id.value}
+        | release = ${state.version}
+        }}`,
   },
 });
