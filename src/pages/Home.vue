@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NavLink from '../components/NavLink.vue';
-import Logo from '../components/Logo.vue';
+// import Logo from '../components/Logo.vue';
 </script>
 
 <template>
@@ -43,16 +43,16 @@ import Logo from '../components/Logo.vue';
     </nav>
 
     <p>
-      A service of the
-      <a
+      A service of the Eisvana Wiki Scholars
+      <!-- <a
         href="https://nomanssky.fandom.com/wiki/Galactic_Hub_Eissentam_Scribes"
         rel="noopener noreferrer"
         target="_blank"
         >Galactic Hub Eissentam Scribes</a
-      >
+      > -->
     </p>
 
-    <div class="logos">
+    <!-- <div class="logos">
       <Logo
         alt="Galactic Hub Eissentam logo"
         href="https://nomanssky.fandom.com/wiki/Galactic_Hub_Eissentam"
@@ -63,7 +63,7 @@ import Logo from '../components/Logo.vue';
         href="https://nomanssky.fandom.com/wiki/Galactic_Hub_Eissentam_Scribes"
         src="https://static.wikia.nocookie.net/nomanssky_gamepedia/images/e/ea/EisHub_Scribe_logo.png"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 

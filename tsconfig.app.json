@@ -18,7 +18,6 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "composite": true,
-    "baseUrl": "/EisHub-Catalogue-Entry/",
     "paths": {
       "@/*": ["./src/*"]
     }

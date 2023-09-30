@@ -61,7 +61,7 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
     <ErrorMessage
       v-if="glyphs.value.length === 12 && !isValidGlyphs"
       class="error"
-      >Glyphs are outside of EisHub space!</ErrorMessage
+      >Glyphs are outside of Eisvana space!</ErrorMessage
     >
     <div class="portal-buttons grid">
       <button
