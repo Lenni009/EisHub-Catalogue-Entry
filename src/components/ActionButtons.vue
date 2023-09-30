@@ -24,6 +24,7 @@ const {
   sandworm,
   flora,
   planet,
+  artifact,
 } = storeToRefs(catalogueDataStore);
 const persistentDataStore = usePersistentDataStore();
 const { contact, submittedEntries, catalogueUrl } = storeToRefs(persistentDataStore);
@@ -52,6 +53,7 @@ const albumStrings: { [key: string]: string } = reactive({
   sandworm,
   flora,
   planet,
+  artifact,
 });
 
 const isValidData = computed(() => useRequiredFields().isValidData);

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import ErrorNotFound from '../views/404.vue';
 import Home from '../views/Home.vue';
 import Form from '../views/Form.vue';
@@ -13,9 +13,9 @@ const router = createRouter({
         {
           path: '',
           name: 'Home',
-          component: () => import('../pages/Home.vue')
-        }
-      ]
+          component: () => import('../pages/Home.vue'),
+        },
+      ],
     },
     {
       path: '/starship',
@@ -27,10 +27,10 @@ const router = createRouter({
           component: () => import('../pages/Starship.vue'),
           meta: {
             requiredFields: ['economy', 'coordinates', 'tier', 'locationName', 'shipType'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Starship_Catalogs',
-          }
-        }
-      ]
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Starship_Catalogues',
+          },
+        },
+      ],
     },
     {
       path: '/freighter',
@@ -42,10 +42,10 @@ const router = createRouter({
           component: () => import('../pages/Freighter.vue'),
           meta: {
             requiredFields: ['economy', 'systemFaction'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Freighter_Catalog',
-          }
-        }
-      ]
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Freighter_Catalogue',
+          },
+        },
+      ],
     },
     {
       path: '/frigate',
@@ -57,10 +57,10 @@ const router = createRouter({
           component: () => import('../pages/Frigate.vue'),
           meta: {
             requiredFields: ['tier'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Organic_Frigate_Catalog',
-          }
-        }
-      ]
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Organic_Frigate_Catalogue',
+          },
+        },
+      ],
     },
     {
       path: '/multitool',
@@ -71,11 +71,21 @@ const router = createRouter({
           name: 'Multi-Tool',
           component: () => import('../pages/Multitool.vue'),
           meta: {
-            requiredFields: ['coordinates', 'tier', 'slots', 'saveReloadLocationName', 'saveReloadLocationType', 'locationType', 'locationName', 'subtype', 'mtType'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Multi-Tool_Catalogs',
-          }
-        }
-      ]
+            requiredFields: [
+              'coordinates',
+              'tier',
+              'slots',
+              'saveReloadLocationName',
+              'saveReloadLocationType',
+              'locationType',
+              'locationName',
+              'subtype',
+              'mtType',
+            ],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Multi-Tool_Catalogues',
+          },
+        },
+      ],
     },
     {
       path: '/creature',
@@ -87,10 +97,10 @@ const router = createRouter({
           component: () => import('../pages/Creature.vue'),
           meta: {
             requiredFields: ['size'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Fauna_Albums',
-          }
-        }
-      ]
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana#Fauna_&_Flora',
+          },
+        },
+      ],
     },
     {
       path: '/sandworm',
@@ -102,10 +112,10 @@ const router = createRouter({
           component: () => import('../pages/Sandworm.vue'),
           meta: {
             requiredFields: ['depth', 'stomach'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Shaihuluda_Album',
-          }
-        }
-      ]
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Rare_Fauna_Album',
+          },
+        },
+      ],
     },
     {
       path: '/flora',
@@ -116,10 +126,10 @@ const router = createRouter({
           name: 'Flora',
           component: () => import('../pages/Flora.vue'),
           meta: {
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Flora_Albums',
-          }
-        }
-      ]
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Flora_Albums',
+          },
+        },
+      ],
     },
     {
       path: '/planet',
@@ -130,16 +140,31 @@ const router = createRouter({
           name: 'Planet',
           component: () => import('../pages/Planet.vue'),
           meta: {
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/EisHub_Planet_Albums',
-          }
-        }
-      ]
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Planet_Albums',
+          },
+        },
+      ],
+    },
+    {
+      path: '/artifact',
+      component: Form,
+      children: [
+        {
+          path: '',
+          name: 'Artifact',
+          component: () => import('../pages/Artifact.vue'),
+          meta: {
+            requiredFields: ['artifactType', 'artifactRarity', 'modifier', 'value'],
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Special:Upload',
+          },
+        },
+      ],
     },
     {
       path: '/:catchAll(.*)*',
-      component: ErrorNotFound
-    }
-  ]
-})
+      component: ErrorNotFound,
+    },
+  ],
+});
 
-export default router
+export default router;
