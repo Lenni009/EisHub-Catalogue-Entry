@@ -159,7 +159,7 @@ function buildFormData() {
     JSON.stringify({
       embeds: [
         {
-          title: name.value,
+          title: name.value.value,
           image: {
             url: 'attachment://' + fileName,
           },
@@ -174,11 +174,11 @@ function buildFormData() {
             },
             {
               name: 'Notes',
-              value: notes.value || '-',
+              value: notes.value.value || '-',
             },
             {
               name: 'Author',
-              value: contact.value,
+              value: contact.value.value,
             },
           ],
         },
