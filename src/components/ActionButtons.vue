@@ -65,8 +65,14 @@ function reset() {
 
 let quality = 1;
 
-async function compressFile(file: File): Promise<File> {
+async function compressFile(inputFile: File): Promise<File> {
   const maxSize = 10000000;
+
+  const sanitisedFileName = inputFile.name.replaceAll(/['"[\]{}]/g, '_');
+
+  // Creating a new file object to remove any bad characters from filename
+  const file = new File([inputFile], sanitisedFileName, { type: inputFile.type });
+  console.log(file)
   if (file.size < maxSize) return file; // if below 10 MB, don't do anything
   const compressedFile = await compress(file, {
     quality,
@@ -91,6 +97,7 @@ async function handleCatalogueEntrySubmission() {
     await submitCatalogueEntry();
   } catch (error) {
     sendFailed.value = true;
+    console.warn(error);
     if (error instanceof Error && error.message) currentStage.value = error.message;
   } finally {
     isSending.value = false;
@@ -115,8 +122,10 @@ async function submitCatalogueEntry() {
   currentStage.value = 'Compressing Image...';
   try {
     compressedFile.value = await compressFile(file.value.value);
+    console.log(file.value.value, compressedFile.value)
     if (!compressedFile.value?.name) throw new Error();
-  } catch {
+  } catch (error) {
+    console.warn(error);
     throw new Error('Something went wrong during file compression');
   }
 
