@@ -25,7 +25,7 @@ defineExpose({
             class="close"
           ></button>
         </form>
-        Confirm Catalogue Entry Submission?
+        Confirm Album Entry Submission?
       </header>
       <form
         method="dialog"

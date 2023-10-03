@@ -1,2 +1,2 @@
-# Eisvana-Catalogue-Entry
-Simple interface for submitting catalogue entries to the Eisvana Wiki Scholars
+# Eisvana-Album-Entry
+Simple interface for submitting album entries to the Eisvana Wiki Scholars

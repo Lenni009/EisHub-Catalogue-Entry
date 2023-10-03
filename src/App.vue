@@ -26,7 +26,7 @@ router.afterEach((to) => {
 <template>
   <header>
     <NavBar />
-    <h1 class="title">Eisvana Catalogue Entry</h1>
+    <h1 class="title">Eisvana Album Entry</h1>
   </header>
 
   <main>
