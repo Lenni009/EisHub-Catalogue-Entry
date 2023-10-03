@@ -27,7 +27,7 @@ const router = createRouter({
           component: () => import('../pages/Starship.vue'),
           meta: {
             requiredFields: ['economy', 'coordinates', 'tier', 'locationName', 'shipType'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Starship_Catalogues',
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Starship_Album',
           },
         },
       ],
@@ -42,7 +42,7 @@ const router = createRouter({
           component: () => import('../pages/Freighter.vue'),
           meta: {
             requiredFields: ['economy', 'systemFaction'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Freighter_Catalogue',
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Freighter_Albums',
           },
         },
       ],
@@ -57,7 +57,7 @@ const router = createRouter({
           component: () => import('../pages/Frigate.vue'),
           meta: {
             requiredFields: ['tier'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Organic_Frigate_Catalogue',
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Organic_Frigate_Album',
           },
         },
       ],
@@ -82,7 +82,7 @@ const router = createRouter({
               'subtype',
               'mtType',
             ],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Multi-Tool_Catalogues',
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Multi-Tool_Albums',
           },
         },
       ],
