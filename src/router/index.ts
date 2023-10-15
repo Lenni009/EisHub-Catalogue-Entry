@@ -42,7 +42,7 @@ const router = createRouter({
           component: () => import('../pages/Freighter.vue'),
           meta: {
             requiredFields: ['economy', 'systemFaction'],
-            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Freighter_Albums',
+            catalogueUrl: 'https://nomanssky.fandom.com/wiki/Eisvana_Freighter_Album',
           },
         },
       ],
