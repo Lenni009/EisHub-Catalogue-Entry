@@ -72,7 +72,6 @@ async function compressFile(inputFile: File): Promise<File> {
 
   // Creating a new file object to remove any bad characters from filename
   const file = new File([inputFile], sanitisedFileName, { type: inputFile.type });
-  console.log(file)
   if (file.size < maxSize) return file; // if below 10 MB, don't do anything
   const compressedFile = await compress(file, {
     quality,
@@ -122,7 +121,6 @@ async function submitCatalogueEntry() {
   currentStage.value = 'Compressing Image...';
   try {
     compressedFile.value = await compressFile(file.value.value);
-    console.log(file.value.value, compressedFile.value)
     if (!compressedFile.value?.name) throw new Error();
   } catch (error) {
     console.warn(error);
