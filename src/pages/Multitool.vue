@@ -44,6 +44,8 @@ watch(isInvalidLocation, (newValue) => {
   if (newValue) locationType.value.value = 'planet';
 });
 
+watchEffect(() => (subtype.value.isActive = isTieredMT.value));
+
 watch(mtType, (newType, oldType) => {
   if (
     (!tieredMTs.includes(newType.value) && tieredMTs.includes(oldType.value)) ||
@@ -59,8 +61,49 @@ watchEffect(() => (slots.value.isValid = isValidSlots.value));
 <template>
   <div class="input-group">
     <div>
+      <label class="required">Type</label>
+      <select v-model="mtType.value">
+        <option value="Standard">Standard</option>
+        <option value="Starter Pistol">Starter Pistol</option>
+        <option value="Experimental">Experimental</option>
+        <option value="Alien">Alien</option>
+        <option value="Royal">Royal</option>
+        <option value="Sentinel">Sentinel</option>
+        <option value="Atlantid">Atlantid</option>
+      </select>
+    </div>
+
+    <div v-show="isTieredMT">
+      <label class="required">Subtype</label>
+      <select
+        v-model="subtype.value"
+        ref="subtypeSelect"
+      >
+        <option
+          v-if="isTieredMT"
+          value="Rifle"
+        >
+          Rifle (Large)
+        </option>
+        <option
+          v-if="mtType.value !== 'Experimental'"
+          value="SMG"
+        >
+          SMG (Medium)
+        </option>
+        <option
+          v-if="isTieredMT"
+          value="Pistol"
+        >
+          Pistol (Small)
+        </option>
+      </select>
+    </div>
+
+    <div>
       <ClassSelect />
     </div>
+
     <div>
       <label class="required">MT Location</label>
       <select v-model="locationType.value">
@@ -117,46 +160,6 @@ watchEffect(() => (slots.value.isValid = isValidSlots.value));
         v-model="slots.value"
       />
       <ErrorMessage v-if="!isValidSlots">Must only contain numbers</ErrorMessage>
-    </div>
-
-    <div>
-      <label class="required">Type</label>
-      <select v-model="mtType.value">
-        <option value="Standard">Standard</option>
-        <option value="Starter Pistol">Starter Pistol</option>
-        <option value="Experimental">Experimental</option>
-        <option value="Alien">Alien</option>
-        <option value="Royal">Royal</option>
-        <option value="Sentinel">Sentinel</option>
-        <option value="Atlantid">Atlantid</option>
-      </select>
-    </div>
-
-    <div v-show="isTieredMT">
-      <label class="required">Subtype</label>
-      <select
-        v-model="subtype.value"
-        ref="subtypeSelect"
-      >
-        <option
-          v-if="isTieredMT"
-          value="Rifle"
-        >
-          Rifle (Large)
-        </option>
-        <option
-          v-if="mtType.value !== 'Experimental'"
-          value="SMG"
-        >
-          SMG (Medium)
-        </option>
-        <option
-          v-if="isTieredMT"
-          value="Pistol"
-        >
-          Pistol (Small)
-        </option>
-      </select>
     </div>
   </div>
 </template>
