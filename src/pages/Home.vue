@@ -56,18 +56,18 @@ import NavLink from '../components/NavLink.vue';
       > -->
     </p>
 
-    <!-- <div class="logos">
+     <div class="logos">
       <Logo
-        alt="Galactic Hub Eissentam logo"
-        href="https://nomanssky.fandom.com/wiki/Galactic_Hub_Eissentam"
-        src="https://static.wikia.nocookie.net/nomanssky_gamepedia/images/6/60/Galactic_Hub_Eissentam_Emblem.png"
+        alt="Eisvana logo"
+        href="https://nomanssky.fandom.com/wiki/Eisvana"
+        src="https://static.wikia.nocookie.net/nomanssky_gamepedia/images/8/85/Eisvana_Logo.png"
       />
-      <Logo
+<!--      <Logo
         alt="Galactic Hub Eissentam Scribes logo"
         href="https://nomanssky.fandom.com/wiki/Galactic_Hub_Eissentam_Scribes"
         src="https://static.wikia.nocookie.net/nomanssky_gamepedia/images/e/ea/EisHub_Scribe_logo.png"
-      />
-    </div> -->
+      /> -->
+    </div>
   </div>
 </template>
 
