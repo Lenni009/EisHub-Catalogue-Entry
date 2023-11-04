@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NavLink from '../components/NavLink.vue';
-// import Logo from '../components/Logo.vue';
+import Logo from '../components/Logo.vue';
 </script>
 
 <template>
