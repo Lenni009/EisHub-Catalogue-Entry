@@ -1,0 +1,1 @@
+import{_ as e}from"./ClassSelect.vue_vue_type_script_setup_true_lang-c5c8c7f1.js";import{d as a,b as o,e as t,f as s,o as r}from"./index-5d1e3d07.js";const n={class:"input-group"},d=a({__name:"Frigate",setup:a=>(a,d)=>(r(),o("div",n,[t("div",null,[s(e)])]))});export{d as default};
