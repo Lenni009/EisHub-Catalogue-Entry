@@ -1,4 +1,4 @@
-import { useRoute } from "vue-router";
+import { useRoute } from 'vue-router';
 
 export function useCurrentPage() {
   const path = useRoute().path;

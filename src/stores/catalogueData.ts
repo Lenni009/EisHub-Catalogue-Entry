@@ -179,8 +179,7 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
 
   getters: {
     isValidGlyphs: (state) => state.isArtifact || regions.includes(state.glyphs.value.substring(4)), // NoSonar region glyphs start at index 4. Tests if an address is valid for Eisvana
-    isValidDiscoverer: (state) =>
-      Boolean(state.isArtifact || (state.discoverer.value || state.discovererReddit.value)),
+    isValidDiscoverer: (state) => Boolean(state.isArtifact || state.discoverer.value || state.discovererReddit.value),
     isValidCoords: (state) =>
       /^[+-](?:[0-9]{1,3})\.(?:[0-9]{2}), [+-](?:[0-9]{1,3})\.(?:[0-9]{2})$/.test(state.coordinates.value) ||
       !state.coordinates.value,

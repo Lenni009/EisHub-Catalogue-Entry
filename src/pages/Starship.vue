@@ -44,10 +44,7 @@ watchEffect(() => (tier.value.isActive = isCrashed.value.value && !isLivingShip.
       v-show="!isAlwaysCrashed"
       class="checkbox-wrapper"
     >
-      <label
-        for="crashed"
-        >Crashed</label
-      >
+      <label for="crashed">Crashed</label>
       <input
         id="crashed"
         type="checkbox"
