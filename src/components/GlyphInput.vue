@@ -36,7 +36,7 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
     <label
       class="required"
       for="portalglyphsInput"
-      >Portalglyphs:</label
+      >Portalglyphs</label
     >
     <div class="glyph-input-wrapper">
       <input
