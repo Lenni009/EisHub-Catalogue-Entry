@@ -40,12 +40,12 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
     >
     <div class="glyph-input-wrapper">
       <input
+        v-model="glyphs.value"
         :aria-invalid="(glyphs.value.length === 12 && !isValidGlyphs) || undefined"
         class="glyphs-input"
         id="portalglyphsInput"
-        type="text"
         maxlength="12"
-        v-model="glyphs.value"
+        type="text"
         @input="lintGlyphs"
       />
       <button
@@ -66,10 +66,10 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
     <div class="portal-buttons grid">
       <button
         v-for="n in 16"
-        class="button glyphs"
-        type="button"
         :id="'glyphButton' + n"
         :value="numberToGlyph(n - 1)"
+        class="button glyphs"
+        type="button"
         @click="addGlyph"
       >
         {{ numberToGlyph(n - 1) }}
