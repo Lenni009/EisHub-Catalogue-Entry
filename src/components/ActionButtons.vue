@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import ConfirmDialog from './ConfirmDialog.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { usePersistentDataStore } from '../stores/persistentData';
