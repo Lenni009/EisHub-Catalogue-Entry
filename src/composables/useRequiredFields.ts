@@ -1,7 +1,8 @@
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { usePersistentDataStore } from '../stores/persistentData';
 import { storeToRefs } from 'pinia';
+import { useIsArtifact } from '@/composables/useIsArtifact';
 
 export function useRequiredFields() {
   const catalogueDataStore = useCatalogueDataStore();
@@ -36,6 +37,8 @@ export function useRequiredFields() {
   const persistentDataStore = usePersistentDataStore();
   const { contact, requiredFields } = storeToRefs(persistentDataStore);
 
+  const { isArtifact } = useIsArtifact();
+
   const fields: {
     [key: string]: {
       [key: string]: string | File | null | boolean;
@@ -69,12 +72,13 @@ export function useRequiredFields() {
 
   const standardFields: string[] = ['contact', 'name', 'file', ...requiredFields.value];
 
-  const isValidData =
-    standardFields
-      .filter((field) => fields[field].isActive)
-      .every((field) => fields[field].value && fields[field].isValid !== false) &&
-    isValidDiscoverer.value &&
-    isValidGlyphs.value;
+  const isValidData = computed(
+    () =>
+      standardFields
+        .filter((field) => fields[field].isActive)
+        .every((field) => fields[field].value && fields[field].isValid !== false) &&
+      ((isValidDiscoverer.value && isValidGlyphs.value) || isArtifact.value)
+  );
 
   return { isValidData };
 }

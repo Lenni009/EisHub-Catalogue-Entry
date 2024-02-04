@@ -1,9 +1,10 @@
 import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 export function useCurrentPage() {
   const route = useRoute();
-  const path = route?.path;
-  const currentPage = path?.replace('/', '').toLowerCase();
+
+  const currentPage = computed(() => route?.path?.replace('/', '').toLowerCase());
 
   return { currentPage };
 }

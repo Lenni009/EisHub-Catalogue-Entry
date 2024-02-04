@@ -41,6 +41,7 @@ const enableSubmissionSending = ref(false);
 const isDev = import.meta.env.DEV;
 
 const { currentPage } = useCurrentPage();
+const { isValidData } = useRequiredFields();
 
 const emit = defineEmits(['reset']);
 
@@ -55,8 +56,6 @@ const albumStrings: { [key: string]: string } = reactive({
   planet,
   artifact,
 });
-
-const isValidData = computed(() => useRequiredFields().isValidData);
 
 function reset() {
   catalogueDataStore.$reset();
@@ -110,7 +109,7 @@ async function handleCatalogueEntrySubmission() {
 
 async function submitCatalogueEntry() {
   // Initial data integrity check
-  if (!isValidData) throw new Error('Invalid Data!');
+  if (!isValidData.value) throw new Error('Invalid Data!');
   if (submittedEntries.value.has(name.value.value)) throw new Error('Cannot create the same entry twice!');
   if (!file.value.value) throw new Error('Invalid File!');
 
@@ -173,7 +172,7 @@ function buildFormData() {
           fields: [
             {
               name: 'Wiki Code',
-              value: '```' + generateAlbumEntry(currentPage).trim() + '```',
+              value: '```' + generateAlbumEntry(currentPage.value).trim() + '```',
             },
             {
               name: 'Wiki Link',

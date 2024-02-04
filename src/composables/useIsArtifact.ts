@@ -1,8 +1,9 @@
+import { computed } from 'vue';
 import { useCurrentPage } from './useCurrentPage';
 
 export function useIsArtifact() {
   const { currentPage } = useCurrentPage();
-  const isArtifact = currentPage === 'artifact';
+  const isArtifact = computed(() => currentPage.value === 'artifact');
 
   return { isArtifact };
 }

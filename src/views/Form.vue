@@ -16,7 +16,7 @@ const { isArtifact } = useIsArtifact();
 const catalogueDataStore = useCatalogueDataStore();
 const { glyphs } = storeToRefs(catalogueDataStore);
 
-watchEffect(() => (glyphs.value.isActive = !isArtifact));
+watchEffect(() => (glyphs.value.isActive = !isArtifact.value));
 </script>
 
 <template>

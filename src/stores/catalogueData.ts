@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import type { StellarLocation, MTSubtype, MTType, ShipType, Tiers, FormItem } from '../types/catalogue';
 import { albumEntry, discovererParm, addInfoMt, starshipOther, checkNumberString } from '../functions/functions';
 import { regions } from '../objects/regions';
-import { useIsArtifact } from '@/composables/useIsArtifact';
 
 interface State {
   name: FormItem<string>;
@@ -177,9 +176,8 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
   }),
 
   getters: {
-    isValidGlyphs: (state) => useIsArtifact().isArtifact || regions.includes(state.glyphs.value.substring(4)), // NoSonar region glyphs start at index 4. Tests if an address is valid for Eisvana
-    isValidDiscoverer: (state) =>
-      Boolean(useIsArtifact().isArtifact || state.discoverer.value || state.discovererReddit.value),
+    isValidGlyphs: (state) => regions.includes(state.glyphs.value.substring(4)), // NoSonar region glyphs start at index 4. Tests if an address is valid for Eisvana
+    isValidDiscoverer: (state) => Boolean(state.discoverer.value || state.discovererReddit.value),
     isValidCoords: (state) =>
       /^[+-](?:[0-9]{1,3})\.(?:[0-9]{2}), [+-](?:[0-9]{1,3})\.(?:[0-9]{2})$/.test(state.coordinates.value) ||
       !state.coordinates.value,

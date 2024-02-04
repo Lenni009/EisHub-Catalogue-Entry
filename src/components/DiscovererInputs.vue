@@ -13,8 +13,8 @@ const persistentDataStore = usePersistentDataStore();
 const { contact } = storeToRefs(persistentDataStore);
 
 watchEffect(() => {
-  discoverer.value.isActive = !isArtifact;
-  discovererReddit.value.isActive = !isArtifact;
+  discoverer.value.isActive = !isArtifact.value;
+  discovererReddit.value.isActive = !isArtifact.value;
 });
 </script>
 
