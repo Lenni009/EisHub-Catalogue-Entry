@@ -7,11 +7,14 @@ import { ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useCatalogueDataStore } from '@/stores/catalogueData';
+import { useIsArtifact } from '@/composables/useIsArtifact';
 
 const form = ref<HTMLFormElement | null>(null);
 
+const { isArtifact } = useIsArtifact();
+
 const catalogueDataStore = useCatalogueDataStore();
-const { isArtifact, glyphs } = storeToRefs(catalogueDataStore);
+const { glyphs } = storeToRefs(catalogueDataStore);
 
 watchEffect(() => (glyphs.value.isActive = !isArtifact));
 </script>
