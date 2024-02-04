@@ -56,13 +56,13 @@ import Logo from '../components/Logo.vue';
       > -->
     </p>
 
-     <div class="logos">
+    <div class="logos">
       <Logo
         alt="Eisvana logo"
         href="https://nomanssky.fandom.com/wiki/Eisvana"
         src="https://static.wikia.nocookie.net/nomanssky_gamepedia/images/8/85/Eisvana_Logo.png"
       />
-<!--      <Logo
+      <!--      <Logo
         alt="Galactic Hub Eissentam Scribes logo"
         href="https://nomanssky.fandom.com/wiki/Galactic_Hub_Eissentam_Scribes"
         src="https://static.wikia.nocookie.net/nomanssky_gamepedia/images/e/ea/EisHub_Scribe_logo.png"
@@ -85,7 +85,7 @@ import Logo from '../components/Logo.vue';
 
 .link-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 2rem;
   max-width: 900px;
   font-size: 1.5rem;

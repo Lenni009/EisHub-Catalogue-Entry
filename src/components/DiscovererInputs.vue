@@ -3,9 +3,12 @@ import { watchEffect } from 'vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { usePersistentDataStore } from '../stores/persistentData';
 import { storeToRefs } from 'pinia';
+import { useIsArtifact } from '@/composables/useIsArtifact';
+
+const { isArtifact } = useIsArtifact();
 
 const catalogueDataStore = useCatalogueDataStore();
-const { discoverer, discovererReddit, notes, isArtifact } = storeToRefs(catalogueDataStore);
+const { discoverer, discovererReddit, notes } = storeToRefs(catalogueDataStore);
 const persistentDataStore = usePersistentDataStore();
 const { contact } = storeToRefs(persistentDataStore);
 

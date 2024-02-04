@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import ThemeSwitch from './ThemeSwitch.vue';
-import {useRoute} from 'vue-router';
+import { useRoute } from 'vue-router';
 
-const isRoot = computed(() => useRoute().path === '/');
+const route = useRoute();
+
+const isRoot = computed(() => route?.path === '/');
 </script>
 
 <template>

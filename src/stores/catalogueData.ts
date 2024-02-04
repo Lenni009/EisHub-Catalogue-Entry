@@ -47,7 +47,6 @@ interface State {
   value: FormItem<string>;
   id: FormItem<string>;
   version: 'Echoes';
-  isArtifact: boolean;
 }
 
 export const useCatalogueDataStore = defineStore('catalogueData', {
@@ -174,13 +173,11 @@ export const useCatalogueDataStore = defineStore('catalogueData', {
       isValid: false,
       value: '',
     },
-    isArtifact: false,
   }),
 
   getters: {
-    isValidGlyphs: (state) => state.isArtifact || regions.includes(state.glyphs.value.substring(4)), // NoSonar region glyphs start at index 4. Tests if an address is valid for Eisvana
-    isValidDiscoverer: (state) =>
-      Boolean(state.isArtifact || (state.discoverer.value || state.discovererReddit.value)),
+    isValidGlyphs: (state) => regions.includes(state.glyphs.value.substring(4)), // NoSonar region glyphs start at index 4. Tests if an address is valid for Eisvana
+    isValidDiscoverer: (state) => Boolean(state.discoverer.value || state.discovererReddit.value),
     isValidCoords: (state) =>
       /^[+-](?:[0-9]{1,3})\.(?:[0-9]{2}), [+-](?:[0-9]{1,3})\.(?:[0-9]{2})$/.test(state.coordinates.value) ||
       !state.coordinates.value,
