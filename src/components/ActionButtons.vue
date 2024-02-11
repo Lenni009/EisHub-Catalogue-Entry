@@ -7,6 +7,7 @@ import { storeToRefs } from 'pinia';
 import { compress, EImageType } from 'image-conversion';
 import { useCurrentPage } from '../composables/useCurrentPage';
 import { useRequiredFields } from '../composables/useRequiredFields';
+import { maxSize } from '@/variables/constants';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK);
 
@@ -62,30 +63,19 @@ function reset() {
   emit('reset');
 }
 
-let quality = 1;
-
-async function compressFile(inputFile: File): Promise<File> {
-  const maxSize = 10000000;
-
-  const sanitisedFileName = inputFile.name.replaceAll(/['"[\]{}]/g, '_');
-
-  // Creating a new file object to remove any bad characters from filename
-  const file = new File([inputFile], sanitisedFileName, { type: inputFile.type });
+async function compressFile(file: File, quality: number = 1): Promise<File> {
+  const sanitisedFileName = file.name.replaceAll(/['"[\]{}]/g, '_');
   if (file.size < maxSize) return file; // if below 10 MB, don't do anything
-  const compressedFile = await compress(file, {
+  const res = await compress(file, {
     quality,
     type: EImageType.JPEG,
     scale: 1,
   });
-  quality -= 0.01; // NoSonar reduce quality by 1%;
-  if (compressedFile.size > maxSize) return await compressFile(file); // compress original file with lower quality setting to avoid double compression
-
-  const fileName = file.name.split('.').slice(0, -1).join('.');
+  const lowerQuality = quality - 0.01; // NoSonar reduce quality by 1%;
+  if (res.size > maxSize) return await compressFile(file, lowerQuality); // compress original file with lower quality setting to avoid double compression
+  const fileName = sanitisedFileName.split('.').slice(0, -1).join('.');
   const newFileName = fileName + '-min.jpg';
-
-  const newFile = new File([compressedFile], newFileName, { type: 'image/jpeg' });
-  quality = 1; // reset quality
-  return newFile;
+  return new File([res], newFileName, { type: EImageType.JPEG });
 }
 
 const generateAlbumEntry = (page: string): string => albumStrings[page];
