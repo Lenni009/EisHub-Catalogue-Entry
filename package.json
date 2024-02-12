@@ -16,7 +16,7 @@
     "image-conversion": "^2.1.1",
     "pinia": "^2.1.6",
     "sass": "^1.64.1",
-    "vue": "^3.3.4",
+    "vue": "^3.4.18",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
