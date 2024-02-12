@@ -107,6 +107,7 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
   .button {
     line-height: 3rem;
     padding: 0;
+    margin: 0;
   }
 }
 

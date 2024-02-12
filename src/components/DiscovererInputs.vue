@@ -85,8 +85,8 @@ watchEffect(() => {
   flex-wrap: wrap;
   flex-direction: column;
   padding: 0.5rem;
-  border: 1px solid var(--form-element-border-color);
-  border-radius: var(--border-radius);
+  border: 1px solid var(--pico-form-element-border-color);
+  border-radius: var(--pico-border-radius);
 
   .one-required-notice {
     margin: 0;

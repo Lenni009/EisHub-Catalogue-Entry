@@ -233,6 +233,10 @@ const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
   display: flex;
   gap: 1rem;
   margin-block-start: 1.25rem;
+
+  button {
+    flex-grow: 1;
+  }
 }
 
 .submission-toggle-wrapper {
