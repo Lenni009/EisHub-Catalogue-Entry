@@ -4,7 +4,7 @@ import ConfirmDialog from './ConfirmDialog.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { usePersistentDataStore } from '../stores/persistentData';
 import { storeToRefs } from 'pinia';
-import { compress, EImageType } from 'image-conversion';
+import { compressImage, imageTypes } from 'simple-image-compressor';
 import { useCurrentPage } from '../composables/useCurrentPage';
 import { useRequiredFields } from '../composables/useRequiredFields';
 import { maxSize } from '@/variables/constants';
@@ -67,16 +67,15 @@ async function compressFile(inputFile: File, quality: number = 1): Promise<File>
   const sanitisedFileName = inputFile.name.replaceAll(/['"[\]{}]/g, '_');
   const file = new File([inputFile], sanitisedFileName, { type: inputFile.type });
   if (file.size < maxSize) return file; // if below 10 MB, don't do anything
-  const res = await compress(file, {
+  const res = await compressImage(file, {
     quality,
-    type: EImageType.JPEG,
-    scale: 1,
+    type: imageTypes.JPEG,
   });
   const lowerQuality = quality - 0.01; // NoSonar reduce quality by 1%;
   if (res.size > maxSize) return await compressFile(file, lowerQuality); // compress original file with lower quality setting to avoid double compression
   const fileName = file.name.split('.').slice(0, -1).join('.');
   const newFileName = fileName + '-min.jpg';
-  return new File([res], newFileName, { type: EImageType.JPEG });
+  return new File([res], newFileName, { type: imageTypes.JPEG });
 }
 
 const generateAlbumEntry = (page: string): string => albumStrings[page];
