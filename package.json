@@ -12,7 +12,7 @@
   "dependencies": {
     "@picocss/pico": "^2.0.0",
     "pinia": "^2.1.6",
-    "sass": "^1.71.0",
+    "sass": "^1.71.1",
     "simple-image-compressor": "^1.4.2",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0"
