@@ -86,7 +86,7 @@ async function handleCatalogueEntrySubmission() {
   } catch (error) {
     sendFailed.value = true;
     console.warn(error);
-    if (error instanceof Error && error.message) currentStage.value = error.message;
+    currentStage.value = error instanceof Error ? error.message : 'Something went wrong';
   } finally {
     isSending.value = false;
     setTimeout(() => {
