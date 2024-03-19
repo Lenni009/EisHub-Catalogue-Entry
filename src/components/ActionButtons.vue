@@ -153,6 +153,9 @@ function buildFormData() {
   formData.append(
     'payload_json',
     JSON.stringify({
+      allowed_mentions: {
+        parse: [],
+      },
       embeds: [
         {
           title: name.value.value,
