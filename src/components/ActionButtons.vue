@@ -4,9 +4,10 @@ import ConfirmDialog from './ConfirmDialog.vue';
 import { useCatalogueDataStore } from '../stores/catalogueData';
 import { usePersistentDataStore } from '../stores/persistentData';
 import { storeToRefs } from 'pinia';
-import { compress, EImageType } from 'image-conversion';
+import { compressImage, imageTypes } from 'simple-image-compressor';
 import { useCurrentPage } from '../composables/useCurrentPage';
 import { useRequiredFields } from '../composables/useRequiredFields';
+import { maxSize } from '@/variables/constants';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK);
 
@@ -62,30 +63,20 @@ function reset() {
   emit('reset');
 }
 
-let quality = 1;
-
-async function compressFile(inputFile: File): Promise<File> {
-  const maxSize = 10000000;
-
+async function compressFile(inputFile: File, quality: number = 1): Promise<File> {
   const sanitisedFileName = inputFile.name.replaceAll(/['"[\]{}]/g, '_');
-
-  // Creating a new file object to remove any bad characters from filename
   const file = new File([inputFile], sanitisedFileName, { type: inputFile.type });
   if (file.size < maxSize) return file; // if below 10 MB, don't do anything
-  const compressedFile = await compress(file, {
+  const type = imageTypes.JPEG;
+  const res = await compressImage(file, {
     quality,
-    type: EImageType.JPEG,
-    scale: 1,
+    type,
   });
-  quality -= 0.01; // NoSonar reduce quality by 1%;
-  if (compressedFile.size > maxSize) return await compressFile(file); // compress original file with lower quality setting to avoid double compression
-
+  const lowerQuality = quality - 0.01; // NoSonar reduce quality by 1%;
+  if (res.size > maxSize) return await compressFile(file, lowerQuality); // compress original file with lower quality setting to avoid double compression
   const fileName = file.name.split('.').slice(0, -1).join('.');
-  const newFileName = fileName + '-min.jpg';
-
-  const newFile = new File([compressedFile], newFileName, { type: 'image/jpeg' });
-  quality = 1; // reset quality
-  return newFile;
+  const newFileName = `${fileName}-min.${type}`;
+  return new File([res], newFileName, { type });
 }
 
 const generateAlbumEntry = (page: string): string => albumStrings[page];
@@ -96,7 +87,7 @@ async function handleCatalogueEntrySubmission() {
   } catch (error) {
     sendFailed.value = true;
     console.warn(error);
-    if (error instanceof Error && error.message) currentStage.value = error.message;
+    currentStage.value = error instanceof Error ? error.message : 'Something went wrong';
   } finally {
     isSending.value = false;
     setTimeout(() => {
@@ -163,6 +154,9 @@ function buildFormData() {
   formData.append(
     'payload_json',
     JSON.stringify({
+      allowed_mentions: {
+        parse: [],
+      },
       embeds: [
         {
           title: name.value.value,
@@ -242,6 +236,10 @@ const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
   display: flex;
   gap: 1rem;
   margin-block-start: 1.25rem;
+
+  button {
+    flex-grow: 1;
+  }
 }
 
 .submission-toggle-wrapper {

@@ -25,7 +25,7 @@ defineProps<{
 
   &:hover {
     color: white;
-    background-color: var(--primary);
+    background-color: var(--pico-primary);
   }
 }
 </style>
