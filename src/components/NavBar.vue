@@ -7,7 +7,7 @@ const route = useRoute();
 
 const isRoot = computed(() => route?.path === '/');
 
-const isEisvanaHost = 'album.eisvana.com';
+const isEisvanaHost = window.location.host === 'album.eisvana.com';
 </script>
 
 <template>
