@@ -6,6 +6,8 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 
 const isRoot = computed(() => route?.path === '/');
+
+const isEisvanaHost = 'album.eisvana.com';
 </script>
 
 <template>
@@ -14,7 +16,7 @@ const isRoot = computed(() => route?.path === '/');
       <li>
         <a
           v-if="isRoot"
-          href=".."
+          :href="isEisvanaHost ? 'https://eisvana.com' : '..'"
           >&larr; View other pages</a
         >
         <router-link
