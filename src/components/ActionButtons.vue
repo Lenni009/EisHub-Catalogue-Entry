@@ -151,7 +151,7 @@ function buildFormData() {
   const formData = new FormData();
 
   // filling form data object
-  formData.append('file', compressedFile.value);
+  formData.append('files[0]', compressedFile.value);
   formData.append(
     'payload_json',
     JSON.stringify({
@@ -182,6 +182,12 @@ function buildFormData() {
               value: contact.value.value,
             },
           ],
+        },
+      ],
+      attachments: [
+        {
+          id: 0,
+          filename: fileName,
         },
       ],
     })
