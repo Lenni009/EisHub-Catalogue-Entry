@@ -209,7 +209,6 @@ const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
       :aria-busy="isSending"
       :class="{ 'is-error': sendFailed, 'is-success': isSent }"
       :disabled="!isValidData"
-      role="button"
       type="button"
       @click="openConfirmationDialog"
     >
@@ -217,7 +216,6 @@ const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
     </button>
     <button
       class="secondary"
-      role="button"
       type="button"
       @click="reset"
     >
@@ -229,10 +227,11 @@ const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
     class="submission-toggle-wrapper"
   >
     <input
+      v-model="enableSubmissionSending"
+      :aria-checked="enableSubmissionSending"
+      id="sendSubmissionToggle"
       role="switch"
       type="checkbox"
-      id="sendSubmissionToggle"
-      v-model="enableSubmissionSending"
     />
     <label for="sendSubmissionToggle">Enable Submission Sending</label>
   </div>

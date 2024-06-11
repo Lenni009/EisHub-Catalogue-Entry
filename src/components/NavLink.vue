@@ -7,21 +7,16 @@ defineProps<{
 
 <template>
   <router-link
-    role="button"
-    class="outline link"
     :to="route"
+    class="outline link"
+    role="button"
     >{{ title }}
   </router-link>
 </template>
 
 <style scoped lang="scss">
 .link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: inherit;
-  padding: 0.75rem 1.25rem;
-  width: 100%;
 
   &:hover {
     color: white;
