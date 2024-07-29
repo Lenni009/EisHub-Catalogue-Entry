@@ -11,7 +11,7 @@ export type ShipType =
   | 'Interceptor'
   | 'Living Ship';
 export type Tiers = 'C' | 'B' | 'A' | 'S';
-export interface FormItem<T> {
+export type FormItem<T> = {
   isActive: boolean;
   isValid?: boolean;
   value: T;
