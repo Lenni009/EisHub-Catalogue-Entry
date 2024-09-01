@@ -15,4 +15,4 @@ export type FormItem<T> = {
   isActive: boolean;
   isValid?: boolean;
   value: T;
-}
+};
