@@ -38,7 +38,7 @@ watchEffect(() => {
       <label class="required">Rarity</label>
       <select v-model="artifactRarity.value">
         <option value="Common">Common (Blue)</option>
-        <option value="Uncommon">Uncommon (Purple) Treasure</option>
+        <option value="Uncommon">Uncommon (Purple)</option>
         <option value="Rare">Rare (Yellow)</option>
       </select>
     </div>
