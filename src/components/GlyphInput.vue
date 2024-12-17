@@ -51,7 +51,6 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
       <button
         class="delete-button is-error"
         id="delButton"
-        role="button"
         type="button"
         @click="deleteGlyph"
       >
