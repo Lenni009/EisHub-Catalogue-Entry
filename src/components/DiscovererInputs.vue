@@ -72,7 +72,7 @@ watchEffect(() => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .textarea-wrapper {
   width: 100%;
   .textarea {

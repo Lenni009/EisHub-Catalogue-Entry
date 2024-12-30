@@ -33,7 +33,7 @@ router.afterEach((to) => {
   </main>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .title {
   margin-block-end: 2rem;
   text-align: center;

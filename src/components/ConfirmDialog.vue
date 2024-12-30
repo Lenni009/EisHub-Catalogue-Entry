@@ -10,6 +10,8 @@ const toggleModal = () => {
 defineExpose({
   toggleModal,
 });
+
+const emit = defineEmits(['confirm']);
 </script>
 
 <template>
@@ -31,14 +33,14 @@ defineExpose({
         method="dialog"
         class="confirm-options"
       >
-        <button @click="$emit('confirm')">Yes</button>
+        <button @click="emit('confirm')">Yes</button>
         <button class="secondary">No</button>
       </form>
     </article>
   </dialog>
 </template>
 
-<style lang="scss">
+<style scoped>
 .confirm-options {
   display: flex;
   gap: 1rem;

@@ -237,7 +237,7 @@ const openConfirmationDialog = () => confirmDialog.value?.toggleModal();
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .buttons {
   display: flex;
   gap: 1rem;

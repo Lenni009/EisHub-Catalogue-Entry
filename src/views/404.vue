@@ -4,7 +4,7 @@
   <p><router-link to="/">Go back</router-link></p>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 p {
   text-align: center;
 }

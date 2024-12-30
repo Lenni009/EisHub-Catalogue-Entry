@@ -51,7 +51,6 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
       <button
         class="delete-button is-error"
         id="delButton"
-        role="button"
         type="button"
         @click="deleteGlyph"
       >
@@ -88,7 +87,7 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .glyphs {
   font-family: NMS-Glyphs-Mono;
   font-size: 3rem;
