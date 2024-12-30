@@ -40,7 +40,7 @@ const emit = defineEmits(['confirm']);
   </dialog>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .confirm-options {
   display: flex;
   gap: 1rem;

@@ -70,7 +70,7 @@ watchEffect(() => (tier.value.isActive = isCrashed.value.value && !isLivingShip.
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .checkbox-wrapper {
   display: flex;
   flex-wrap: wrap;

@@ -87,7 +87,7 @@ watchEffect(() => (glyphs.value.isValid = isValidGlyphs.value));
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .glyphs {
   font-family: NMS-Glyphs-Mono;
   font-size: 3rem;

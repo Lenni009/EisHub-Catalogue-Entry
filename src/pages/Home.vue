@@ -71,7 +71,7 @@ import Logo from '../components/Logo.vue';
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .home {
   text-align: center;
 }

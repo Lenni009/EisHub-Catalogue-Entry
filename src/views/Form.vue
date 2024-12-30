@@ -37,7 +37,7 @@ watchEffect(() => (glyphs.value.isActive = !isArtifact.value));
   </form>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .subheading {
   font-size: 1.5rem;
   text-align: center;

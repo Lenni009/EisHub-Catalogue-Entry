@@ -14,7 +14,7 @@ defineProps<{
   </router-link>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .link {
   font-size: inherit;
 

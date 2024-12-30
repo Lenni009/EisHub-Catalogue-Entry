@@ -20,7 +20,7 @@ defineProps<{
   </a>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .logo:focus {
   background-color: unset;
 }

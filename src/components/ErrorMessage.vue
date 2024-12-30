@@ -4,7 +4,7 @@
   </p>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .error {
   font-size: small;
   color: var(--pico-form-element-invalid-border-color);
